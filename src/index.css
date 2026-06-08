@@ -51,8 +51,8 @@
 
   /* Text */
   --text-1: #f0f6ff;
-  --text-2: #8ba0bc;
-  --text-3: #4a6080;
+  --text-2: #b0c8de;
+  --text-3: #6e8aa8;
 
   /* Semantic */
   --success: #34d399;
@@ -97,6 +97,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
+    cursor: none;
     /* Subtle scanline texture */
     background-image:
       repeating-linear-gradient(
@@ -107,6 +108,12 @@
         rgba(34,211,238,0.008) 4px
       );
   }
+
+  /* Keep native cursor on touch + restore text cursor inside fields */
+  @media (pointer: coarse) {
+    body { cursor: auto; }
+  }
+  input, textarea, select { cursor: text; }
 
   #root { min-height: 100vh; display: flex; flex-direction: column; }
 }
@@ -268,6 +275,65 @@
   }
 }
 
+/* ─── Extended Keyframe Library ─────────────────────────────── */
+
+/* Pulsing glow for active timeline dot */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 8px rgba(34,211,238,0.55), 0 0 0 0 rgba(34,211,238,0.3); }
+  50%       { box-shadow: 0 0 22px rgba(34,211,238,0.9), 0 0 0 8px rgba(34,211,238,0); }
+}
+
+/* Shimmer sweep for skeleton / text reveals */
+@keyframes shimmer {
+  from { background-position: -200% center; }
+  to   { background-position:  200% center; }
+}
+
+/* Subtle scanner line for infra cards */
+@keyframes scan-line {
+  0%   { transform: translateY(-100%); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translateY(100vh); opacity: 0; }
+}
+
+/* Aurora background flow */
+@keyframes aurora-flow {
+  0%, 100% { background-position: 0% 50%; }
+  50%       { background-position: 100% 50%; }
+}
+
+/* Border rotate for bento glow */
+@keyframes border-glow-pulse {
+  0%, 100% { opacity: 0.3; }
+  50%       { opacity: 0.8; }
+}
+
+/* Float for decorative elements */
+@keyframes float-y {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-12px); }
+}
+
+/* Spin slowly */
+@keyframes slow-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Staggered char reveal */
+@keyframes char-reveal {
+  from { opacity: 0; transform: translateY(18px) rotateX(-30deg); filter: blur(4px); }
+  to   { opacity: 1; transform: none; filter: blur(0); }
+}
+
+/* Metric card count glow */
+@keyframes metric-shine {
+  0%, 100% { color: var(--cyan); text-shadow: 0 0 20px rgba(34,211,238,0.3); }
+  50%       { color: var(--cyan-hover); text-shadow: 0 0 40px rgba(34,211,238,0.7); }
+}
+
+/* View transition ── */
 /* ─── View Transitions ───────────────────────────────────────── */
 @keyframes vt-in  { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:none; } }
 @keyframes vt-out { from { opacity:1; transform:none; } to { opacity:0; transform:translateY(-10px); } }
@@ -282,3 +348,77 @@
 
 /* ─── Selection ──────────────────────────────────────────────── */
 ::selection { background: rgba(34,211,238,0.2); color: var(--cyan-hover); }
+
+/* ─── Utility animations ─────────────────────────────────────── */
+.dot-pulse    { animation: pulse-glow 2.2s ease-in-out infinite; }
+.float-anim   { animation: float-y   4s   ease-in-out infinite; }
+.slow-spin    { animation: slow-spin 20s  linear     infinite; }
+.metric-glow  { animation: metric-shine 3s ease-in-out infinite; }
+
+/* ─── Shimmer text ───────────────────────────────────────────── */
+.shimmer-text {
+  background: linear-gradient(
+    90deg,
+    var(--text-2) 0%, var(--cyan-hover) 40%, var(--text-1) 60%, var(--text-2) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 3.5s linear infinite;
+}
+
+/* ─── Bento card animated glow border ───────────────────────── */
+.bento-card-glow {
+  position: relative;
+  isolation: isolate;
+}
+.bento-card-glow::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0%,
+    rgba(34,211,238,0.5) 25%,
+    rgba(129,140,248,0.4) 50%,
+    rgba(34,211,238,0.5) 75%,
+    transparent 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  animation: slow-spin 4s linear infinite paused;
+}
+.bento-card-glow:hover::before {
+  opacity: 1;
+  animation-play-state: running;
+}
+
+/* ─── Scanner beam effect ────────────────────────────────────── */
+.scanner-beam {
+  position: absolute;
+  left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, var(--cyan) 50%, transparent 100%);
+  animation: scan-line 4s ease-in-out infinite;
+  pointer-events: none;
+  opacity: 0.6;
+  z-index: 5;
+}
+
+/* ─── Magnetic tag ───────────────────────────────────────────── */
+.tag-magnetic {
+  will-change: transform;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+.tag-magnetic:hover {
+  color: var(--cyan-hover) !important;
+  border-color: rgba(34,211,238,0.5) !important;
+  background: rgba(34,211,238,0.12) !important;
+}

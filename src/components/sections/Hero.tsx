@@ -1,10 +1,50 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
+import { useMotionValue, useTransform, animate, motion } from 'motion/react';
 import { profile } from '../../data/portfolio';
 import { useMagnetic } from '../../hooks/useMagnetic';
 import { useScramble } from '../../hooks/useScramble';
 import foto from '../../assets/profile/Juan.png';
+
+/* ── Count-up stat component ── */
+function CountStat({ target, prefix = '', suffix = '', label }: { target: number; prefix?: string; suffix?: string; label: string }) {
+  const ref       = useRef<HTMLDivElement>(null);
+  const count     = useMotionValue(0);
+  const rounded   = useTransform(count, v => Math.round(v));
+  const [display, setDisplay] = useState(0);
+
+  useEffect(() => {
+    const unsub = rounded.on('change', v => setDisplay(v));
+    return unsub;
+  }, [rounded]);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        obs.disconnect();
+        animate(count, target, { duration: 1.5, ease: [0.25, 0, 0, 1] });
+      },
+      { threshold: 0.6 },
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [count, target]);
+
+  return (
+    <div ref={ref}>
+      <motion.p
+        style={{ fontFamily: 'var(--font-display)', fontSize: '1.875rem', fontWeight: 900, color: 'var(--cyan)', letterSpacing: '-0.05em', lineHeight: 1 }}
+      >
+        {prefix}{display}{suffix}
+      </motion.p>
+      <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--text-3)', marginTop: '0.3rem', letterSpacing: '0.05em' }}>{label}</p>
+    </div>
+  );
+}
 
 function CyanBtn({ href, children, primary = false, target }: { href: string; children: React.ReactNode; primary?: boolean; target?: string }) {
   const ref = useMagnetic(0.28) as React.RefObject<HTMLAnchorElement>;
@@ -20,8 +60,10 @@ function CyanBtn({ href, children, primary = false, target }: { href: string; ch
 }
 
 export default function Hero() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const photoRef   = useRef<HTMLDivElement>(null);
+  const sectionRef    = useRef<HTMLElement>(null);
+  const photoRef      = useRef<HTMLDivElement>(null);
+  const cyanGlowRef   = useRef<HTMLDivElement>(null);
+  const purpleGlowRef = useRef<HTMLDivElement>(null);
   const [scrambleTrigger] = useState(true);
 
   const scrambled = useScramble('Full Stack JS Developer &amp; AI Integrator', scrambleTrigger, 1400);
@@ -36,12 +78,46 @@ export default function Hero() {
       .to('[data-hero]', { opacity: 1, y: 0, duration: 0.7, stagger: 0.12 }, 0.35);
   }, { scope: sectionRef });
 
+  // Mouse parallax — glow blobs & photo depth
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const onMove = (e: MouseEvent) => {
+      const rect = section.getBoundingClientRect();
+      if (e.clientY < rect.top || e.clientY > rect.bottom) return;
+
+      const nx = ((e.clientX - rect.left)  / rect.width  - 0.5) * 2; // -1..1
+      const ny = ((e.clientY - rect.top)   / rect.height - 0.5) * 2; // -1..1
+
+      if (cyanGlowRef.current) {
+        gsap.to(cyanGlowRef.current, { x: nx * -50, y: ny * -35, duration: 2.2, ease: 'power2.out', overwrite: 'auto' });
+      }
+      if (purpleGlowRef.current) {
+        gsap.to(purpleGlowRef.current, { x: nx * 35, y: ny * 25, duration: 2.8, ease: 'power2.out', overwrite: 'auto' });
+      }
+      if (photoRef.current) {
+        gsap.to(photoRef.current, {
+          rotateY: nx * 6,
+          rotateX: -ny * 4,
+          transformPerspective: 1200,
+          duration: 1.6,
+          ease: 'power2.out',
+          overwrite: 'auto',
+        });
+      }
+    };
+
+    window.addEventListener('mousemove', onMove);
+    return () => window.removeEventListener('mousemove', onMove);
+  }, []);
+
   return (
     <section ref={sectionRef} id="hero" style={{ minHeight: '100svh', display: 'flex', alignItems: 'center', position: 'relative', overflow: 'hidden', paddingTop: '60px' }}>
 
-      {/* Radial glow */}
-      <div aria-hidden style={{ position: 'absolute', top: '30%', right: '-10%', width: '600px', height: '600px', background: 'radial-gradient(circle, rgba(34,211,238,0.07) 0%, transparent 65%)', pointerEvents: 'none', borderRadius: '50%' }} />
-      <div aria-hidden style={{ position: 'absolute', bottom: '10%', left: '-5%', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(129,140,248,0.05) 0%, transparent 65%)', pointerEvents: 'none', borderRadius: '50%' }} />
+      {/* Radial glow — tracked by mouse parallax */}
+      <div ref={cyanGlowRef}   aria-hidden style={{ position: 'absolute', top: '30%',   right: '-10%', width: '600px', height: '600px', background: 'radial-gradient(circle, rgba(34,211,238,0.07) 0%, transparent 65%)',   pointerEvents: 'none', borderRadius: '50%' }} />
+      <div ref={purpleGlowRef} aria-hidden style={{ position: 'absolute', bottom: '10%', left: '-5%',   width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(129,140,248,0.05) 0%, transparent 65%)', pointerEvents: 'none', borderRadius: '50%' }} />
 
       {/* Grid lines */}
       <div aria-hidden style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(rgba(34,211,238,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(34,211,238,0.03) 1px,transparent 1px)', backgroundSize: '80px 80px', maskImage: 'radial-gradient(ellipse 80% 80% at 50% 0%,black 20%,transparent 100%)', WebkitMaskImage: 'radial-gradient(ellipse 80% 80% at 50% 0%,black 20%,transparent 100%)', pointerEvents: 'none' }} />
@@ -85,7 +161,7 @@ export default function Hero() {
           {/* Text */}
           <div>
             <p data-hero style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--cyan)', marginBottom: '1.25rem' }}>
-              Senior Full Stack Architect
+              Full Stack JS Developer
             </p>
 
             <h1 data-hero style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.5rem, 5.5vw, 4.25rem)', fontWeight: 900, lineHeight: 1.05, letterSpacing: '-0.04em', marginBottom: '0.5rem', color: 'var(--text-1)' }}>
@@ -112,14 +188,11 @@ export default function Hero() {
               </CyanBtn>
             </div>
 
-            {/* Stats row */}
+            {/* Stats row — count-up on scroll-into-view */}
             <div data-hero style={{ display: 'flex', gap: '2.5rem', marginTop: '3rem', paddingTop: '2rem', borderTop: '1px solid var(--border)' }}>
-              {[{ v: '+2', l: 'años en producción' }, { v: '7', l: 'proyectos lanzados' }, { v: '3', l: 'plataformas móviles' }].map(s => (
-                <div key={s.l}>
-                  <p style={{ fontFamily: 'var(--font-display)', fontSize: '1.875rem', fontWeight: 900, color: 'var(--cyan)', letterSpacing: '-0.05em', lineHeight: 1 }}>{s.v}</p>
-                  <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--text-3)', marginTop: '0.3rem', letterSpacing: '0.05em' }}>{s.l}</p>
-                </div>
-              ))}
+              <CountStat target={2} prefix="+" label="años en producción" />
+              <CountStat target={7}             label="proyectos lanzados" />
+              <CountStat target={3}             label="plataformas móviles" />
             </div>
           </div>
         </div>

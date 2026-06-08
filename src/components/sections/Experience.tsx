@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { experiences, education } from '../../data/portfolio';
+import { experiences, education, certifications } from '../../data/portfolio';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -43,19 +43,22 @@ export default function Experience() {
                 {experiences.map(exp => (
                   <div key={exp.id} data-reveal style={{ position: 'relative' }}>
                     {/* Dot */}
-                    <div style={{ position: 'absolute', left: -22, top: 5, width: 13, height: 13, borderRadius: '50%', background: exp.isCurrent ? 'var(--cyan)' : 'var(--surface-2)', border: `2px solid ${exp.isCurrent ? 'var(--cyan)' : 'var(--border-2)'}`, boxShadow: exp.isCurrent ? '0 0 12px rgba(34,211,238,0.6)' : 'none' }} />
+                    <div
+                      className={exp.isCurrent ? 'dot-pulse' : undefined}
+                      style={{ position: 'absolute', left: -22, top: 5, width: 13, height: 13, borderRadius: '50%', background: exp.isCurrent ? 'var(--cyan)' : 'var(--surface-2)', border: `2px solid ${exp.isCurrent ? 'var(--cyan)' : 'var(--border-2)'}`, boxShadow: exp.isCurrent ? '0 0 12px rgba(34,211,238,0.6)' : 'none' }}
+                    />
 
                     <div>
                       <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'baseline', gap: '0.4rem 0.75rem', marginBottom: '0.2rem' }}>
                         <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.0625rem', fontWeight: 700, color: 'var(--text-1)', letterSpacing: '-0.01em' }}>{exp.company}</h3>
                         {exp.isCurrent && <span className="tag" style={{ fontSize: '0.6rem', padding: '0.1rem 0.45rem' }}>Actual</span>}
                       </div>
-                      <p style={{ fontFamily: 'var(--font-display)', fontSize: '0.875rem', fontWeight: 500, color: 'var(--text-2)', marginBottom: '0.2rem' }}>{exp.role}</p>
+                      <p style={{ fontFamily: 'var(--font-display)', fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-1)', marginBottom: '0.2rem' }}>{exp.role}</p>
                       <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--text-3)', marginBottom: '0.875rem', letterSpacing: '0.04em' }}>{exp.period} · {exp.location}</p>
 
                       <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                         {exp.highlights.map((h, i) => (
-                          <li key={i} style={{ display: 'flex', gap: '0.6rem', fontSize: '0.875rem', color: 'var(--text-2)', lineHeight: 1.65 }}>
+                          <li key={i} style={{ display: 'flex', gap: '0.6rem', fontSize: '0.875rem', color: 'var(--text-1)', lineHeight: 1.65 }}>
                             <span style={{ color: 'var(--cyan)', marginTop: '0.4rem', flexShrink: 0, fontSize: '0.5rem' }}>▶</span>{h}
                           </li>
                         ))}
@@ -71,7 +74,7 @@ export default function Experience() {
             </div>
           </div>
 
-          {/* Education + Achievements */}
+          {/* Education + Achievements + Certifications */}
           <div>
             <div data-reveal style={{ marginBottom: '2rem' }}>
               <p className="label" style={{ marginBottom: '0.6rem' }}>Formación</p>
@@ -92,7 +95,7 @@ export default function Experience() {
             </div>
 
             {/* Metric highlights */}
-            <div data-reveal>
+            <div data-reveal style={{ marginBottom: '3rem' }}>
               <p className="label" style={{ marginBottom: '1.25rem' }}>Logros clave</p>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                 {[
@@ -101,12 +104,69 @@ export default function Experience() {
                   { m: '90d', d: 'SGA empresarial sin regresiones' },
                   { m: '3×', d: 'plataformas móviles publicadas' },
                 ].map(a => (
-                  <div key={a.m} style={{ padding: '1.25rem', background: 'var(--glass)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', textAlign: 'center' }}>
-                    <p style={{ fontFamily: 'var(--font-display)', fontSize: '1.625rem', fontWeight: 900, color: 'var(--cyan)', letterSpacing: '-0.05em', lineHeight: 1 }}>{a.m}</p>
+                  <div
+                    key={a.m}
+                    style={{ padding: '1.25rem', background: 'var(--glass)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', textAlign: 'center', transition: 'border-color 0.3s, transform 0.3s', cursor: 'default' }}
+                    onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'var(--border-2)'; el.style.transform = 'scale(1.035)'; }}
+                    onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'var(--border)'; el.style.transform = 'scale(1)'; }}
+                  >
+                    <p className="metric-glow" style={{ fontFamily: 'var(--font-display)', fontSize: '1.625rem', fontWeight: 900, letterSpacing: '-0.05em', lineHeight: 1 }}>{a.m}</p>
                     <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--text-3)', marginTop: '0.4rem', lineHeight: 1.4 }}>{a.d}</p>
                   </div>
                 ))}
               </div>
+            </div>
+
+            {/* Certifications */}
+            <div data-reveal>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem' }}>
+                <p className="label">Certificaciones</p>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', color: 'var(--text-3)', letterSpacing: '0.06em' }}>PRÓXIMAMENTE</span>
+              </div>
+
+              {certifications.length === 0 ? (
+                <div style={{
+                  padding: '2rem 1.5rem',
+                  background: 'var(--glass)',
+                  backdropFilter: 'blur(20px)',
+                  WebkitBackdropFilter: 'blur(20px)',
+                  border: '1px dashed var(--border-2)',
+                  borderRadius: 'var(--radius)',
+                  textAlign: 'center',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: '0.75rem',
+                }}>
+                  <div style={{ width: 44, height: 44, borderRadius: 10, background: 'var(--cyan-dim)', border: '1px solid var(--border-2)', display: 'grid', placeItems: 'center', color: 'var(--cyan)' }}>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+                      <circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/>
+                    </svg>
+                  </div>
+                  <p style={{ fontFamily: 'var(--font-display)', fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-2)' }}>
+                    Certificaciones en proceso
+                  </p>
+                  <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--text-3)', lineHeight: 1.5, maxWidth: '28ch' }}>
+                    AWS, React y otras credenciales serán añadidas aquí.
+                  </p>
+                </div>
+              ) : (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                  {certifications.map(cert => (
+                    <div key={cert.id} style={{ padding: '1rem 1.25rem', background: 'var(--glass)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                      <div style={{ width: 34, height: 34, borderRadius: 7, background: 'var(--cyan-dim)', border: '1px solid var(--border-2)', display: 'grid', placeItems: 'center', color: 'var(--cyan)', flexShrink: 0 }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+                          <circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/>
+                        </svg>
+                      </div>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <p style={{ fontFamily: 'var(--font-display)', fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-1)', marginBottom: '0.15rem' }}>{cert.name}</p>
+                        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--text-3)' }}>{cert.issuer}{cert.date ? ` · ${cert.date}` : ''}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>

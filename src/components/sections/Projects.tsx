@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import React, { useRef } from 'react';
 import { Link } from 'react-router';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
@@ -184,30 +184,75 @@ function SvgPreview({ category, title }: { category: string; title: string }) {
 }
 
 /* ── Single card ── */
-function ProjectCard({ p, large = false }: { p: ProjectItem; large?: boolean }) {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const imgRef  = useRef<HTMLDivElement>(null);
+function ProjectCard({ p, large = false, onHoverChange, dimmed = false }: { p: ProjectItem; large?: boolean; onHoverChange?: (id: string | null) => void; dimmed?: boolean }) {
+  const cardRef  = useRef<HTMLDivElement>(null);
+  const imgRef   = useRef<HTMLDivElement>(null);
+  const sheenRef = useRef<HTMLDivElement>(null);
+  const viewRef  = useRef<HTMLDivElement>(null);
+  const accent   = CAT_COLOR[p.category] ?? '#22d3ee';
+
+  // Init VIEW badge hidden
+  const initView = () => {
+    if (viewRef.current) {
+      gsap.set(viewRef.current, { scale: 0.6, opacity: 0 });
+    }
+  };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const didInit = useRef(false);
 
   const onEnter = () => {
-    gsap.to(cardRef.current,  { y: -5, duration: 0.35, ease: 'power2.out' });
-    gsap.to(imgRef.current,   { scale: 1.04, duration: 0.6, ease: 'power2.out' });
+    if (!didInit.current) { didInit.current = true; initView(); }
+    gsap.to(cardRef.current, { y: -6, duration: 0.35, ease: 'power2.out' });
+    gsap.to(imgRef.current,  { scale: 1.05, duration: 0.6, ease: 'power2.out' });
+    gsap.to(viewRef.current, { scale: 1, opacity: 1, duration: 0.45, ease: 'back.out(2.2)' });
     if (cardRef.current) {
-      cardRef.current.style.borderColor = `${CAT_COLOR[p.category]}55`;
-      cardRef.current.style.boxShadow   = `0 24px 60px rgba(0,0,0,0.6), 0 0 40px ${CAT_COLOR[p.category]}18`;
+      cardRef.current.style.borderColor = `${accent}55`;
+      cardRef.current.style.boxShadow   = `0 28px 64px rgba(0,0,0,0.65), 0 0 48px ${accent}20`;
     }
+    onHoverChange?.(p.id);
   };
 
   const onLeave = () => {
-    gsap.to(cardRef.current,  { y: 0,    duration: 0.5, ease: 'power2.out' });
-    gsap.to(imgRef.current,   { scale: 1, duration: 0.5, ease: 'power2.out' });
+    gsap.to(cardRef.current,  { y: 0, rotateX: 0, rotateY: 0, duration: 0.75, ease: 'elastic.out(1, 0.42)' });
+    gsap.to(imgRef.current,   { scale: 1,   duration: 0.5,  ease: 'power2.out' });
+    gsap.to(sheenRef.current, { opacity: 0, duration: 0.35 });
+    gsap.to(viewRef.current,  { scale: 0.6, opacity: 0, duration: 0.22, ease: 'power2.in' });
     if (cardRef.current) {
       cardRef.current.style.borderColor = 'rgba(255,255,255,0.08)';
       cardRef.current.style.boxShadow   = 'none';
     }
+    onHoverChange?.(null);
+  };
+
+  const onMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const el    = cardRef.current;
+    const sheen = sheenRef.current;
+    if (!el) return;
+
+    const rect = el.getBoundingClientRect();
+    const lx = e.clientX - rect.left;
+    const ly = e.clientY - rect.top;
+    const nx = (lx - rect.width  / 2) / (rect.width  / 2);
+    const ny = (ly - rect.height / 2) / (rect.height / 2);
+
+    // 3D tilt
+    gsap.to(el, {
+      rotateX: -ny * 8, rotateY: nx * 8,
+      transformPerspective: 1000,
+      duration: 0.3, ease: 'power2.out', overwrite: 'auto',
+    });
+
+    // Holographic sheen follows cursor
+    if (sheen) {
+      const sx = ((nx + 1) / 2 * 100).toFixed(1);
+      const sy = ((ny + 1) / 2 * 100).toFixed(1);
+      sheen.style.background =
+        `radial-gradient(ellipse at ${sx}% ${sy}%, rgba(255,255,255,0.07) 0%, ${accent}10 35%, transparent 65%)`;
+      gsap.to(sheen, { opacity: 1, duration: 0.18, overwrite: 'auto' });
+    }
   };
 
   const previewH = large ? '260px' : '200px';
-  const accent   = CAT_COLOR[p.category] ?? '#22d3ee';
 
   return (
     <div
@@ -215,6 +260,7 @@ function ProjectCard({ p, large = false }: { p: ProjectItem; large?: boolean }) 
       data-reveal
       onMouseEnter={onEnter}
       onMouseLeave={onLeave}
+      onMouseMove={onMove}
       style={{
         borderRadius: 'var(--radius-lg)',
         overflow: 'hidden',
@@ -222,13 +268,48 @@ function ProjectCard({ p, large = false }: { p: ProjectItem; large?: boolean }) 
         background: '#0c1628',
         display: 'flex',
         flexDirection: 'column',
-        transition: 'border-color var(--t-base), box-shadow var(--t-base)',
+        transition: 'border-color var(--t-base), box-shadow var(--t-base), opacity 0.4s ease, filter 0.4s ease',
         willChange: 'transform',
         cursor: 'default',
+        position: 'relative',
+        opacity: dimmed ? 0.35 : 1,
+        filter: dimmed ? 'blur(1px) saturate(0.5)' : 'none',
       }}
     >
+      {/* Holographic sheen overlay */}
+      <div
+        ref={sheenRef}
+        aria-hidden
+        style={{
+          position: 'absolute', inset: 0,
+          zIndex: 10, pointerEvents: 'none', opacity: 0,
+          mixBlendMode: 'screen',
+        }}
+      />
       {/* ── Preview area ── */}
       <div style={{ position: 'relative', height: previewH, overflow: 'hidden', flexShrink: 0, background: '#060f1a' }}>
+        {/* Corner arrow badge — reveals on hover */}
+        <div
+          ref={viewRef}
+          aria-hidden
+          style={{
+            position: 'absolute', bottom: '0.875rem', right: '0.875rem',
+            width: 40, height: 40,
+            borderRadius: '50%',
+            background: 'rgba(11,19,38,0.78)',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
+            border: `1px solid ${accent}60`,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            zIndex: 20, pointerEvents: 'none', opacity: 0,
+            boxShadow: `0 0 20px ${accent}40, inset 0 1px 0 rgba(255,255,255,0.1)`,
+          }}
+        >
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="7" y1="17" x2="17" y2="7"/>
+            <polyline points="7 7 17 7 17 17"/>
+          </svg>
+        </div>
         {/* Image / art */}
         <div ref={imgRef} style={{ width: '100%', height: '100%', transformOrigin: 'center center' }}>
           {p.category === 'mobile' && p.preview ? (
@@ -389,6 +470,7 @@ function ProjectCard({ p, large = false }: { p: ProjectItem; large?: boolean }) 
 /* ── Section ── */
 export default function Projects() {
   const sectionRef = useRef<HTMLElement>(null);
+  const [hoveredId, setHoveredId] = React.useState<string | null>(null);
 
   useGSAP(() => {
     const header = sectionRef.current?.querySelector<HTMLElement>('[data-header]');
@@ -412,6 +494,12 @@ export default function Projects() {
   const row2 = projects.slice(2, 5);
   const row3 = projects.slice(5);
 
+  const cardProps = (p: ProjectItem, large?: boolean) => ({
+    key: p.id, p, large,
+    onHoverChange: setHoveredId,
+    dimmed: hoveredId !== null && hoveredId !== p.id,
+  });
+
   return (
     <section ref={sectionRef} id="projects" className="section">
       <div className="container">
@@ -429,18 +517,18 @@ export default function Projects() {
 
         {/* Row 1 — 2 large featured cards */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1.25rem', marginBottom: '1.25rem' }} className="proj-row-2">
-          {row1.map(p => <ProjectCard key={p.id} p={p} large />)}
+          {row1.map(p => <ProjectCard {...cardProps(p, true)} />)}
         </div>
 
         {/* Row 2 — 3 medium cards */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.25rem', marginBottom: '1.25rem' }} className="proj-row-3">
-          {row2.map(p => <ProjectCard key={p.id} p={p} />)}
+          {row2.map(p => <ProjectCard {...cardProps(p)} />)}
         </div>
 
         {/* Row 3 — 2 cards */}
         {row3.length > 0 && (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1.25rem' }} className="proj-row-2">
-            {row3.map(p => <ProjectCard key={p.id} p={p} />)}
+            {row3.map(p => <ProjectCard {...cardProps(p)} />)}
           </div>
         )}
       </div>

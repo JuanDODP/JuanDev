@@ -5,13 +5,14 @@ import type {
   SkillGroup,
   EducationItem,
   SoftSkill,
+  CertificationItem,
 } from '../types/portfolio.types';
 
 export const profile: ProfileData = {
   name: 'Juan Diego Domínguez Castaño',
   title: 'Full Stack JavaScript Engineer',
   headline: 'Full Stack JS con sistemas en producción.',
-  bio: 'Más de 2 años desarrollando con React, Next.js, Node.js y NestJS en producción real. TypeScript en modo estricto como estándar. He desplegado infraestructura completa en AWS de forma independiente. Apps publicadas en Google Play, App Store y Huawei AppGallery. Uso habitual de AI tools como multiplicadores de productividad — reviso lo que generan, soy dueño de lo que shipio.',
+  bio: 'Más de 2 años desarrollando con React, Next.js, Node.js y NestJS en producción real. TypeScript en modo estricto como estándar. He desplegado infraestructura completa en AWS de forma independiente. Apps publicadas en Google Play, App Store y Huawei AppGallery. Integro herramientas de IA — Claude Code, ChatGPT, Gemini — como multiplicadores de productividad en cada etapa del ciclo de desarrollo.',
   email: 'juand.dominguez.castano.ce23@gmail.com',
   phone: '+52 5612227107',
   linkedin: 'https://www.linkedin.com/in/juan-diego-dom%C3%ADnguez-casta%C3%B1o-2a6a78335/',
@@ -96,13 +97,13 @@ export const projects: ProjectItem[] = [
     id: 'pos-miscelanea',
     title: 'POS Miscelánea',
     subtitle: 'Smart POS System',
-    targetAudience: 'Propietarios de tiendas de abarrotes, misceláneas y comercios minoristas locales.',
+    targetAudience: 'Propietarios de cualquier tipo de negocio — tiendas, restaurantes, ferreterías, papelerías o cualquier comercio minorista.',
     context:
-      'Plataforma de punto de venta ágil enfocada en la optimización del inventario y la reposición inteligente.',
+      'Plataforma de punto de venta ágil y adaptable, diseñada para operar en cualquier giro comercial sin importar el rubro del negocio.',
     description:
-      'Sistema de Punto de Venta automatizado diseñado para agilizar las operaciones de cobro y el control de flujo de caja en comercios minoristas. Su principal diferenciador es un módulo de análisis de inventario que genera reportes automatizados para la reposición urgente de mercancía, categorizando las alertas según el tipo de producto para optimizar las decisiones de compra del negocio.',
+      'Sistema de Punto de Venta flexible que se adapta a cualquier tipo de negocio — desde abarrotes y restaurantes hasta ferreterías o papelerías. Su arquitectura modular permite configurar el catálogo, categorías y flujos de caja según el giro. Incluye un módulo de análisis de inventario que genera reportes automatizados de reposición urgente, optimizando las decisiones de compra en cualquier sector.',
     links: [{ label: 'Ver demo', url: 'https://testclaude.d32e29om3ytecc.amplifyapp.com/', type: 'demo' }],
-    tags: ['React', 'Node.js', 'PostgreSQL', 'AWS Amplify'],
+    tags: ['React', 'NestJS', 'Node.js', 'Socket.io', 'AWS Amplify', 'EC2', 'PostgreSQL'],
     category: 'web',
     status: 'production',
     preview: '/previews/pos-misc.png',
@@ -234,9 +235,15 @@ export const skillGroups: SkillGroup[] = [
     accent: '#FF9900',
   },
   {
-    category: 'Testing & AI',
+    category: 'IA & Productividad',
     icon: '◉',
-    items: ['Jest', 'React Testing Library', 'Playwright', 'Claude Code', 'GitHub Copilot', 'Cursor'],
+    items: ['Claude Code', 'ChatGPT', 'Gemini', 'Stitch', 'OpenAI API', 'Gemini API', 'GitHub Copilot', 'Cursor'],
+    accent: '#a855f7',
+  },
+  {
+    category: 'Testing',
+    icon: '◻',
+    items: ['Jest', 'React Testing Library', 'Playwright'],
     accent: '#4F9EFF',
   },
 ];
@@ -246,7 +253,7 @@ export const softSkills: SoftSkill[] = [
   { label: 'Ética Técnica', description: 'Código limpio, documentación real y transparencia en estimaciones y compromisos.' },
   { label: 'Colaboración y Mentoría', description: 'Trabajo en equipos multidisciplinarios bajo Scrum/Agile con cultura de code review.' },
   { label: 'Resolución Analítica', description: 'Diagnóstico sistemático de problemas complejos en producción con impacto medible.' },
-  { label: 'Inglés Técnico', description: 'Nivel intermedio — lectura de documentación, comunicación técnica escrita y APIs.' },
+  { label: 'Inglés Técnico', description: 'Nivel fluido — documentación, comunicación técnica, APIs en inglés y colaboración con equipos internacionales.' },
 ];
 
 export const education: EducationItem[] = [
@@ -262,4 +269,8 @@ export const education: EducationItem[] = [
     period: 'Sep 2022 – Ago 2024',
     location: 'México',
   },
+];
+
+export const certifications: CertificationItem[] = [
+  // Certificaciones próximamente
 ];

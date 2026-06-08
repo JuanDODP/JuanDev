@@ -23,8 +23,8 @@ const SOFT_SKILLS = [
         <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
       </svg>
     ),
-    title: 'Aprendizaje Continuo',
-    desc: 'Dominio avanzado del inglés técnico y actualización constante en frameworks emergentes y modelos de IA.',
+    title: 'Inglés Técnico Fluido',
+    desc: 'Comunicación técnica fluida — documentación, APIs, colaboración con equipos internacionales y lectura de especificaciones en inglés.',
   },
   {
     icon: (
@@ -33,7 +33,16 @@ const SOFT_SKILLS = [
       </svg>
     ),
     title: 'Resolución Analítica',
-    desc: 'Capacidad crítica para descomponer problemas complejos en módulos manejables y optimizados para producción.',
+    desc: 'Diagnóstico sistemático de problemas complejos en producción con impacto medible en métricas de negocio.',
+  },
+  {
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+        <path d="M12 2a10 10 0 1 0 10 10H12V2z"/><path d="M12 2a10 10 0 0 1 10 10"/><circle cx="12" cy="12" r="3"/>
+      </svg>
+    ),
+    title: 'IA como Multiplicador',
+    desc: 'Uso profesional de Claude Code, ChatGPT, Gemini y Stitch para acelerar ciclos de desarrollo, revisión de código y documentación técnica.',
   },
 ];
 
