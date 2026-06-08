@@ -1,6 +1,20 @@
 import { motion } from 'motion/react';
 
-const ORBS = [
+// 1. Definimos la estructura exacta para que TypeScript sepa qué tipos de datos manejamos
+interface OrbConfig {
+  color: string;
+  size: number;
+  style: React.CSSProperties;
+  keyframes: {
+    x: number[];
+    y: number[];
+  };
+  duration: number;
+  delay: number;
+}
+
+// 2. Quitamos "as const" y tipamos el arreglo con la interfaz para que permita arreglos mutables normales
+const ORBS: OrbConfig[] = [
   {
     color: 'rgba(34,211,238,0.09)',
     size: 720,
@@ -41,14 +55,15 @@ const ORBS = [
     duration: 34,
     delay: 7,
   },
-] as const;
+];
 
 export default function AmbientOrbs() {
   return (
     <div
       aria-hidden
       style={{
-        position: 'fixed', inset: 0,
+        position: 'fixed', 
+        inset: 0,
         pointerEvents: 'none',
         zIndex: 9980,
         overflow: 'hidden',
