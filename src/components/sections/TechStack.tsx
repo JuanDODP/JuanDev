@@ -1,58 +1,59 @@
-import { useRef, useEffect } from 'react';
+import { useRef } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-/* ── Magnetic tag component ── */
-function MTag({ children }: { children: string }) {
-  const ref = useRef<HTMLSpanElement>(null);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    const onMove = (e: MouseEvent) => {
-      const rect = el.getBoundingClientRect();
-      const cx = rect.left + rect.width  / 2;
-      const cy = rect.top  + rect.height / 2;
-      const dx = e.clientX - cx;
-      const dy = e.clientY - cy;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      const maxDist = 130;
-
-      if (dist < maxDist) {
-        const force = (1 - dist / maxDist) * 0.38;
-        gsap.to(el, { x: dx * force, y: dy * force, duration: 0.35, ease: 'power2.out', overwrite: 'auto' });
-      } else {
-        gsap.to(el, { x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.5)', overwrite: 'auto' });
-      }
-    };
-
-    window.addEventListener('mousemove', onMove);
-    return () => {
-      window.removeEventListener('mousemove', onMove);
-      gsap.killTweensOf(el);
-    };
-  }, []);
+/* ── Infinite horizontal tag ticker ─────────────────────────── */
+function TagTicker({ items, color = 'var(--cyan)' }: { items: string[]; color?: string }) {
+  /* Duplicate so the loop is seamless: scroll exactly -50% = one full copy */
+  const doubled = [...items, ...items];
+  /* Speed scales with item count so dense rows don't rush */
+  const duration = Math.max(items.length * 2.8, 16);
 
   return (
-    <span
-      ref={ref}
-      className="tag tag-magnetic"
-      style={{ display: 'inline-block', willChange: 'transform' }}
+    <div
+      style={{
+        marginTop: '0.875rem',
+        overflow: 'hidden',
+        /* Fade both edges for the "infinite tape" illusion */
+        WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)',
+        maskImage:       'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)',
+      }}
     >
-      {children}
-    </span>
+      <div
+        style={{
+          display: 'flex',
+          gap: '0.45rem',
+          width: 'max-content',
+          animation: `tag-scroll ${duration}s linear infinite`,
+        }}
+      >
+        {doubled.map((t, i) => (
+          <span
+            key={i}
+            style={{
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.65rem',
+              fontWeight: 500,
+              padding: '0.2rem 0.55rem',
+              borderRadius: 4,
+              background: `${color}12`,
+              color,
+              border: `1px solid ${color}2e`,
+              whiteSpace: 'nowrap',
+              letterSpacing: '0.03em',
+              flexShrink: 0,
+            }}
+          >
+            {t}
+          </span>
+        ))}
+      </div>
+    </div>
   );
 }
-
-const tags = (items: string[]) => (
-  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', marginTop: '0.75rem' }}>
-    {items.map(t => <MTag key={t}>{t}</MTag>)}
-  </div>
-);
 
 export default function TechStack() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -119,7 +120,7 @@ export default function TechStack() {
             <p style={{ fontSize: '0.875rem', color: 'var(--text-2)', lineHeight: 1.7, marginBottom: 'auto' }}>
               Desarrollo de interfaces reactivas y aplicaciones móviles nativas con alto performance visual.
             </p>
-            {tags(['React', 'React Native', 'TypeScript', 'Angular', 'Next.js', 'Tailwind CSS'])}
+            <TagTicker items={['React', 'React Native', 'TypeScript', 'Angular', 'Next.js', 'Tailwind CSS']} color="var(--cyan)" />
           </div>
 
           {/* ── Backend Architecture ── */}
@@ -146,7 +147,7 @@ export default function TechStack() {
                 </p>
               </div>
             </div>
-            {tags(['NestJS', 'Node.js', 'PostgreSQL', 'TypeORM', 'REST APIs', 'JWT', 'Socket.io'])}
+            <TagTicker items={['NestJS', 'Node.js', 'PostgreSQL', 'TypeORM', 'REST APIs', 'JWT', 'Socket.io']} color="var(--cyan)" />
           </div>
 
           {/* ── Cloud & Infra — with scanner beam ── */}
@@ -170,7 +171,7 @@ export default function TechStack() {
             </div>
             <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1rem', fontWeight: 700, color: 'var(--text-1)', marginBottom: '0.4rem' }}>Cloud &amp; Infra</h3>
             <p style={{ fontSize: '0.8125rem', color: 'var(--text-2)', lineHeight: 1.65, marginBottom: '0.75rem' }}>Infraestructura AWS con S3 para almacenamiento, CloudFront como CDN para distribución de assets y pipelines CI/CD automatizados.</p>
-            {tags(['AWS', 'EC2', 'S3', 'CloudFront', 'RDS', 'Docker', 'GitHub Actions', 'Nginx'])}
+            <TagTicker items={['AWS', 'EC2', 'S3', 'CloudFront', 'RDS', 'Docker', 'GitHub Actions', 'Nginx']} color="#fbbf24" />
           </div>
 
           {/* ── Innovación OpenAI ── */}
@@ -189,7 +190,7 @@ export default function TechStack() {
             </div>
             <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1rem', fontWeight: 700, color: 'var(--text-1)', marginBottom: '0.4rem' }}>OpenAI APIs</h3>
             <p style={{ fontSize: '0.8125rem', color: 'var(--text-2)', lineHeight: 1.65, marginBottom: '0.75rem' }}>Consumo e integración de APIs de OpenAI y Gemini para automatización de procesos en productos reales.</p>
-            {tags(['OpenAI API', 'Gemini API', 'LLMs', 'Prompting'])}
+            <TagTicker items={['OpenAI API', 'Gemini API', 'LLMs', 'Prompting']} color="#818cf8" />
           </div>
 
           {/* ── IA & Productividad ── */}
@@ -218,7 +219,7 @@ export default function TechStack() {
                 <p style={{ fontSize: '0.8125rem', color: 'var(--text-2)', lineHeight: 1.65, marginBottom: '0.75rem' }}>
                   Uso profesional de herramientas de IA para acelerar ciclos de desarrollo, revisión de código, generación de tests y documentación técnica.
                 </p>
-                {tags(['Claude Code', 'ChatGPT', 'Gemini', 'Stitch', 'GitHub Copilot', 'Cursor'])}
+                <TagTicker items={['Claude Code', 'ChatGPT', 'Gemini', 'Stitch', 'GitHub Copilot', 'Cursor']} color="#a855f7" />
               </div>
             </div>
           </div>
@@ -227,6 +228,13 @@ export default function TechStack() {
       </div>
 
       <style>{`
+        @keyframes tag-scroll {
+          from { transform: translateX(0); }
+          to   { transform: translateX(-50%); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          [style*="tag-scroll"] { animation: none !important; }
+        }
         @media (max-width: 900px) {
           .bento-grid > div { grid-column: span 12 !important; grid-row: span 1 !important; min-height: auto !important; }
         }

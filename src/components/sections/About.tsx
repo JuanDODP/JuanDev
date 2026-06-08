@@ -23,8 +23,8 @@ const SOFT_SKILLS = [
         <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
       </svg>
     ),
-    title: 'Inglés Técnico Fluido',
-    desc: 'Comunicación técnica fluida — documentación, APIs, colaboración con equipos internacionales y lectura de especificaciones en inglés.',
+    title: 'Inglés Técnico — Nivel Intermedio',
+    desc: 'Comprensión sólida de documentación técnica, APIs y especificaciones en inglés. Comunicación profesional en desarrollo activo y aprendizaje constante.',
   },
   {
     icon: (
