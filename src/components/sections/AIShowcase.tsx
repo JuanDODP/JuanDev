@@ -490,15 +490,19 @@ function EcosystemPanel({ color }: { color: string }) {
 }
 
 /* ─── Motion variants ────────────────────────────────────────────────── */
+type BezierEase = [number, number, number, number];
+const E1 = [0.22, 1, 0.36, 1]  as BezierEase;
+const E2 = [0.4,  0, 1,    1]  as BezierEase;
+
 const panelV = {
   enter: (d: number) => ({ y: d > 0 ? 38 : -38, opacity: 0, filter: 'blur(10px)', scale: 0.975 }),
-  center: { y: 0, opacity: 1, filter: 'blur(0px)', scale: 1, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
-  exit:  (d: number) => ({ y: d > 0 ? -28 : 28, opacity: 0, filter: 'blur(6px)', scale: 0.975, transition: { duration: 0.28, ease: [0.4, 0, 1, 1] } }),
+  center: { y: 0, opacity: 1, filter: 'blur(0px)', scale: 1, transition: { duration: 0.6, ease: E1 } },
+  exit:  (d: number) => ({ y: d > 0 ? -28 : 28, opacity: 0, filter: 'blur(6px)', scale: 0.975, transition: { duration: 0.28, ease: E2 } }),
 };
 
 const textV = {
   enter: (d: number) => ({ y: d > 0 ? 18 : -18, opacity: 0 }),
-  center: { y: 0, opacity: 1, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } },
+  center: { y: 0, opacity: 1, transition: { duration: 0.5, ease: E1 } },
   exit:  (d: number) => ({ y: d > 0 ? -14 : 14, opacity: 0, transition: { duration: 0.22 } }),
 };
 
