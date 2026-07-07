@@ -17,7 +17,7 @@ export const profile: ProfileData = {
   phone: '+52 5612227107',
   linkedin: 'https://www.linkedin.com/in/juan-diego-dom%C3%ADnguez-casta%C3%B1o-2a6a78335/',
   github: 'https://github.com/JuanDODP',
-  cvUrl: 'https://drive.google.com/file/d/1YbY9tErXSbtppIGR5xiq_s_arQ_gMKN6/view?usp=sharing',
+  cvUrl: 'https://drive.google.com/file/d/1s2r9uKEnYtFIvPGNw959pI_A_WM49tp6/view?usp=sharing',
   photo: '/assets/profile/Juan.png',
 };
 
