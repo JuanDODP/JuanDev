@@ -1,0 +1,37 @@
+name: Build con Docker y Despliegue a S3
+
+on:
+  push:
+    branches:
+      - main  # O la rama que utilices para producción
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Obtener código fuente
+      - name: Checkout del código
+        uses: actions/checkout@v4
+
+      # 2. Compilar la aplicación usando Docker
+      - name: Compilar Frontend con Docker
+        run: |
+          docker build -f Dockerfile.prod -t react-app-builder .
+          # Creamos un contenedor temporal y extraemos los archivos del build a la VM
+          docker create --name temp-container react-app-builder
+          docker cp temp-container:/dist ./dist
+          docker rm temp-container
+
+      # 3. Configurar Credenciales de AWS
+      - name: Configurar credenciales de AWS
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+
+      # 4. Sincronizar hacia S3
+      - name: Desplegar a AWS S3
+        run: |
+          aws s3 sync ./dist s3://site-dominguezdev.duckdns.org --delete

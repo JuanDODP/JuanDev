@@ -1,0 +1,15 @@
+# --- ETAPA 1: Build de React ---
+FROM node:22-alpine AS builder
+
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+RUN npm ci
+
+COPY . .
+RUN npm run build
+
+# --- ETAPA 2: Exportador de archivos compilados ---
+FROM alpine:latest AS exporter
+WORKDIR /dist
+COPY --from=builder /app/dist /dist
