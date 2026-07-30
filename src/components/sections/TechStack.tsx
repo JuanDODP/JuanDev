@@ -2,8 +2,50 @@ import { useRef } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import type { IconType } from 'react-icons';
+import { FaAws } from 'react-icons/fa6';
+import {
+  SiReact,
+  SiTypescript,
+  SiAngular,
+  SiNextdotjs,
+  SiTailwindcss,
+  SiVite,
+  SiNestjs,
+  SiNodedotjs,
+  SiPostgresql,
+  SiTypeorm,
+  SiJsonwebtokens,
+  SiSocketdotio,
+  SiDocker,
+  SiTerraform,
+  SiGithubactions,
+  SiNginx,
+} from 'react-icons/si';
 
 gsap.registerPlugin(ScrollTrigger);
+
+/* ── Brand icons per tag — falls back to plain text when no match ── */
+const TECH_ICONS: Record<string, IconType> = {
+  React: SiReact,
+  'React Native': SiReact,
+  TypeScript: SiTypescript,
+  Angular: SiAngular,
+  'Next.js': SiNextdotjs,
+  'Tailwind CSS': SiTailwindcss,
+  Vite: SiVite,
+  NestJS: SiNestjs,
+  'Node.js': SiNodedotjs,
+  PostgreSQL: SiPostgresql,
+  TypeORM: SiTypeorm,
+  JWT: SiJsonwebtokens,
+  'Socket.io': SiSocketdotio,
+  AWS: FaAws,
+  Docker: SiDocker,
+  Terraform: SiTerraform,
+  'GitHub Actions': SiGithubactions,
+  Nginx: SiNginx,
+};
 
 /* ── Infinite horizontal tag ticker ─────────────────────────── */
 function TagTicker({ items, color = 'var(--cyan)' }: { items: string[]; color?: string }) {
@@ -30,26 +72,33 @@ function TagTicker({ items, color = 'var(--cyan)' }: { items: string[]; color?: 
           animation: `tag-scroll ${duration}s linear infinite`,
         }}
       >
-        {doubled.map((t, i) => (
-          <span
-            key={i}
-            style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: '0.65rem',
-              fontWeight: 500,
-              padding: '0.2rem 0.55rem',
-              borderRadius: 4,
-              background: `${color}12`,
-              color,
-              border: `1px solid ${color}2e`,
-              whiteSpace: 'nowrap',
-              letterSpacing: '0.03em',
-              flexShrink: 0,
-            }}
-          >
-            {t}
-          </span>
-        ))}
+        {doubled.map((t, i) => {
+          const Icon = TECH_ICONS[t];
+          return (
+            <span
+              key={i}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.35rem',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.65rem',
+                fontWeight: 500,
+                padding: '0.2rem 0.55rem',
+                borderRadius: 4,
+                background: `${color}12`,
+                color,
+                border: `1px solid ${color}2e`,
+                whiteSpace: 'nowrap',
+                letterSpacing: '0.03em',
+                flexShrink: 0,
+              }}
+            >
+              {Icon && <Icon size={12} style={{ flexShrink: 0 }} aria-hidden />}
+              {t}
+            </span>
+          );
+        })}
       </div>
     </div>
   );
@@ -120,7 +169,7 @@ export default function TechStack() {
             <p style={{ fontSize: '0.875rem', color: 'var(--text-2)', lineHeight: 1.7, marginBottom: 'auto' }}>
               Desarrollo de interfaces reactivas y aplicaciones móviles nativas con alto performance visual.
             </p>
-            <TagTicker items={['React', 'React Native', 'TypeScript', 'Angular', 'Next.js', 'Tailwind CSS']} color="var(--cyan)" />
+            <TagTicker items={['React', 'React Native', 'TypeScript', 'Angular', 'Next.js', 'Tailwind CSS', 'Vite']} color="var(--cyan)" />
           </div>
 
           {/* ── Backend Architecture ── */}
@@ -147,7 +196,7 @@ export default function TechStack() {
                 </p>
               </div>
             </div>
-            <TagTicker items={['NestJS', 'Node.js', 'PostgreSQL', 'TypeORM', 'REST APIs', 'JWT', 'Socket.io']} color="var(--cyan)" />
+            <TagTicker items={['Node.js', 'NestJS', 'PostgreSQL', 'TypeORM', 'REST APIs', 'JWT', 'Socket.io']} color="var(--cyan)" />
           </div>
 
           {/* ── Cloud & Infra — with scanner beam ── */}
@@ -170,8 +219,8 @@ export default function TechStack() {
               <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>DevOps</span>
             </div>
             <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1rem', fontWeight: 700, color: 'var(--text-1)', marginBottom: '0.4rem' }}>Cloud &amp; Infra</h3>
-            <p style={{ fontSize: '0.8125rem', color: 'var(--text-2)', lineHeight: 1.65, marginBottom: '0.75rem' }}>Infraestructura AWS con S3 para almacenamiento, CloudFront como CDN para distribución de assets y pipelines CI/CD automatizados.</p>
-            <TagTicker items={['AWS', 'EC2', 'S3', 'CloudFront', 'RDS', 'Docker', 'GitHub Actions', 'Nginx']} color="#fbbf24" />
+            <p style={{ fontSize: '0.8125rem', color: 'var(--text-2)', lineHeight: 1.65, marginBottom: '0.75rem' }}>Infraestructura como código con Terraform, contenedores Docker y despliegues en AWS (S3, CloudFront, Amplify) orquestados con pipelines CI/CD en GitHub Actions.</p>
+            <TagTicker items={['Terraform', 'Docker', 'AWS', 'S3', 'CloudFront', 'Amplify', 'EC2', 'RDS', 'GitHub Actions', 'Nginx']} color="#fbbf24" />
           </div>
 
           {/* ── Innovación OpenAI ── */}

@@ -231,7 +231,7 @@ export const skillGroups: SkillGroup[] = [
   {
     category: 'DevOps & Cloud',
     icon: '◈',
-    items: ['AWS', 'EC2', 'S3', 'RDS', 'CloudFront', 'Amplify', 'Docker', 'GitHub Actions', 'CI/CD', 'Nginx', 'PM2'],
+    items: ['Terraform', 'Docker', 'AWS', 'EC2', 'S3', 'RDS', 'CloudFront', 'Amplify', 'GitHub Actions', 'CI/CD', 'Nginx', 'PM2'],
     accent: '#FF9900',
   },
   {
