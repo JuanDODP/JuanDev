@@ -15,9 +15,9 @@ export const profile: ProfileData = {
   bio: 'Más de 2 años desarrollando con React, Next.js, Node.js y NestJS en producción real. TypeScript en modo estricto como estándar. He desplegado infraestructura completa en AWS de forma independiente. Apps publicadas en Google Play, App Store y Huawei AppGallery. Integro herramientas de IA — Claude Code, ChatGPT, Gemini — como multiplicadores de productividad en cada etapa del ciclo de desarrollo.',
   email: 'juand.dominguez.castano.ce23@gmail.com',
   phone: '+52 5612227107',
-  linkedin: 'https://www.linkedin.com/in/juan-diego-dom%C3%ADnguez-casta%C3%B1o-2a6a78335/',
+  linkedin: 'https://www.linkedin.com/in/dominguez-dev/',
   github: 'https://github.com/JuanDODP',
-  cvUrl: 'https://drive.google.com/file/d/1s2r9uKEnYtFIvPGNw959pI_A_WM49tp6/view?usp=sharing',
+  cvUrl: 'https://drive.google.com/file/d/1S6sxAJNl-NpPZF0orwdTBmJR3_UNxGtI/view?usp=sharing',
   photo: '/assets/profile/Juan.png',
 };
 
