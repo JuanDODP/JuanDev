@@ -87,7 +87,7 @@ export const projects: ProjectItem[] = [
       'Sistema desarrollado end-to-end con responsabilidad total del ciclo de vida del software, operando en producción activa.',
     description:
       'Sistema ERP y Punto de Venta integral diseñado para el sector restaurantero. Incluye sincronización de comandas en tiempo real, gestión de estado de mesas y un motor avanzado de inventario basado en recetas que descuenta ingredientes compuestos automáticamente para asegurar la consistencia del stock. Desplegado en la nube con alta disponibilidad.',
-    links: [{ label: 'Ver en producción', url: 'https://develop.di9d99ewoj4ig.amplifyapp.com/', type: 'demo' }],
+    links: [{ label: 'Ver en producción', url: 'https://develop.d1qafhhg0d4pgs.amplifyapp.com/login', type: 'demo' }],
     tags: ['React', 'NestJS', 'Node.js', 'Socket.io', 'Nginx', 'AWS Amplify', 'EC2'],
     category: 'web',
     status: 'production',

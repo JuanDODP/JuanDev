@@ -7,7 +7,7 @@ Este documento contiene la información de contexto, enlaces y descripciones té
 ## 1. SysRanchito / SysBarRestaurant (ERP & POS)
 * **Público Dirigido:** Dueños de restaurantes/bares, gerentes operativos y personal de servicio (cajas y mesas).
 * **Contexto:** Sistema desarrollado end-to-end con responsabilidad total del ciclo de vida del software, operando en producción activa[cite: 1].
-* **Enlace:** [Demo/Producción - SYSBAR](https://develop.di9d99ewoj4ig.amplifyapp.com/)
+* **Enlace:** [Demo/Producción - SYSBAR](https://develop.d1qafhhg0d4pgs.amplifyapp.com/login)
 * **Descripción:** Sistema ERP y Punto de Venta (POS) integral diseñado para el sector restaurantero[cite: 1]. Incluye sincronización de comandas en tiempo real, gestión de estado de mesas y un motor avanzado de inventario basado en recetas que descuenta ingredientes compuestos automáticamente para asegurar la consistencia del stock[cite: 1]. Desplegado en la nube con alta disponibilidad[cite: 1].
 
 ---
