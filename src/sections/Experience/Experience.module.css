@@ -1,0 +1,179 @@
+.grid {
+  display: grid;
+  gap: 3rem;
+}
+
+.title {
+  font-size: var(--step-4);
+  margin-bottom: 1rem;
+}
+
+.lede {
+  color: var(--muted);
+  max-width: 40ch;
+}
+
+.education {
+  margin-top: 2.5rem;
+}
+
+.education h3 {
+  font-size: 1rem;
+  font-stretch: var(--semi-wide);
+  font-weight: 650;
+  color: var(--muted);
+  margin-bottom: 0.75rem;
+}
+
+.education ul {
+  list-style: none;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.education li {
+  display: flex;
+  gap: 0.85rem;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.education svg {
+  width: 22px;
+  height: 22px;
+  color: var(--azure);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.education strong {
+  display: block;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.education span {
+  font-size: 0.875rem;
+  color: var(--faint);
+}
+
+.track {
+  position: relative;
+}
+
+.timeline {
+  list-style: none;
+  position: relative;
+}
+
+/* Amber fill drawn over the grey rail, scrubbed by scroll */
+.railFill {
+  position: absolute;
+  left: -0.5px;
+  top: 0.6rem;
+  bottom: 2.5rem;
+  width: 2px;
+  border-radius: 1px;
+  background: linear-gradient(to bottom, var(--amber), color-mix(in srgb, var(--amber) 30%, transparent));
+  transform-origin: top;
+  z-index: 1;
+}
+
+.role {
+  position: relative;
+  padding: 0 0 2.5rem 1.75rem;
+  border-left: 1px solid var(--line-strong);
+}
+
+.role:last-child {
+  padding-bottom: 0;
+  border-left-color: transparent;
+}
+
+.role::before {
+  content: '';
+  z-index: 2;
+  transition:
+    background-color var(--dur) ease,
+    border-color var(--dur) ease,
+    box-shadow var(--dur) ease,
+    transform var(--dur) var(--ease-out);
+  position: absolute;
+  left: -6px;
+  top: 0.3rem;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--ink);
+  border: 2px solid var(--line-strong);
+}
+
+.lit::before {
+  border-color: var(--amber);
+  transform: scale(1.15);
+}
+
+.current::before {
+  background: var(--amber);
+  border-color: var(--amber);
+  box-shadow: 0 0 0 4px var(--amber-soft);
+}
+
+.period {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  color: var(--faint);
+  margin-bottom: 0.35rem;
+}
+
+.badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--amber);
+}
+
+.company {
+  font-size: var(--step-2);
+  font-weight: 700;
+}
+
+.position {
+  color: var(--azure);
+  font-weight: 500;
+  margin-top: 0.15rem;
+}
+
+.highlights {
+  margin: 0.9rem 0 1rem;
+  padding-left: 1.1rem;
+  color: var(--muted);
+  display: grid;
+  gap: 0.45rem;
+  max-width: 68ch;
+}
+
+.highlights li::marker {
+  color: var(--line-strong);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+@media (min-width: 960px) {
+  .grid {
+    grid-template-columns: 1fr 1.9fr;
+    gap: clamp(3rem, 6vw, 5rem);
+  }
+  .aside {
+    position: sticky;
+    top: calc(var(--nav-h) + 2rem);
+    align-self: start;
+  }
+}
