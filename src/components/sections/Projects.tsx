@@ -458,9 +458,12 @@ export default function Projects() {
           {row2.map(p => <ProjectCard {...cardProps(p)} />)}
         </div>
 
-        {/* Row 3 */}
+        {/* Row 3 — 2 or 3 columns depending on how many remain */}
         {row3.length > 0 && (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1.25rem' }} className="proj-row-2">
+          <div
+            style={{ display: 'grid', gridTemplateColumns: `repeat(${row3.length >= 3 ? 3 : 2}, 1fr)`, gap: '1.25rem' }}
+            className={row3.length >= 3 ? 'proj-row-3' : 'proj-row-2'}
+          >
             {row3.map(p => <ProjectCard {...cardProps(p)} />)}
           </div>
         )}

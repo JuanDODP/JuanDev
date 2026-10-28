@@ -12,7 +12,15 @@ Este documento contiene la información de contexto, enlaces y descripciones té
 
 ---
 
-## 2. POS Miscelánea (Smart POS System)
+## 2. Lagrangiano (ERP SaaS de Logística e Inmobiliario)
+* **Público Dirigido:** Empresas de transporte de carga y operadores logísticos en México, administradoras de inmuebles, y sus equipos de operación, finanzas y cumplimiento fiscal; conductores y personal de campo mediante apps móviles.
+* **Contexto:** Producto empresarial multi-inquilino en desarrollo activo, construido en equipo bajo estrictos controles de calidad y cumplimiento normativo mexicano. Mi participación se centra en automatización de CI/CD móvil y en observabilidad del sistema.
+* **Enlace:** [Landing - Lagrangiano](https://dev.lagrangiano.com/landing)
+* **Descripción:** Plataforma ERP SaaS que unifica la operación logística y la administración inmobiliaria con cumplimiento fiscal integrado. Cubre flotas, embarques y entregas, almacén, finanzas con generación automática de pólizas contables, nómina y recursos humanos, y emisión de facturación electrónica CFDI con complemento Carta Porte a través de un PAC certificado. Se apoya en una arquitectura serverless en AWS con aislamiento de datos por cliente a nivel de base de datos (Row-Level Security), autenticación centralizada y un contrato de API definido primero con TypeSpec, del que se generan tipos y validadores compartidos por la web y las apps móviles. La calidad se protege con miles de pruebas automatizadas y reglas de arquitectura verificadas en CI; la operación, con alarmas, colas de mensajes con reintentos y avisos automáticos de despliegue y de compilaciones móviles.
+
+---
+
+## 3. POS Miscelánea (Smart POS System)
 * **Público Dirigido:** Propietarios de tiendas de abarrotes, misceláneas y comercios minoristas locales.
 * **Contexto:** Plataforma de punto de venta ágil enfocada en la optimización del inventario y la reposición inteligente.
 * **Enlace:** [Demo/Producción - POS Miscelánea](https://testclaude.d32e29om3ytecc.amplifyapp.com/)
@@ -20,7 +28,7 @@ Este documento contiene la información de contexto, enlaces y descripciones té
 
 ---
 
-## 3. Sistema de Gestión de Asignaciones (SGA)
+## 4. Sistema de Gestión de Asignaciones (SGA)
 * **Público Dirigido:** Usuarios corporativos, analistas de operaciones y gerentes administrativos del sector financiero/arrendatario.
 * **Contexto:** Plataforma empresarial para la transformación digital, construida bajo los principios de Clean Architecture para evitar regresiones en despliegues a producción[cite: 1, 2].
 * **Enlace:** [Producción - SGA](https://stable.d2b4kybjjmycs6.amplifyapp.com/)
@@ -28,7 +36,7 @@ Este documento contiene la información de contexto, enlaces y descripciones té
 
 ---
 
-## 4. EDUIA (Cloud & DevOps Infrastructure)
+## 5. EDUIA (Cloud & DevOps Infrastructure)
 * **Público Dirigido:** Instituciones educativas, administradores escolares y equipos internos de desarrollo.
 * **Contexto:** Estandarización de entornos de despliegue y automatización de la infraestructura en la nube para un sistema del sector educativo[cite: 1, 2].
 * **Enlace:** *Proyecto de infraestructura interna y automatización (Sin UI pública).*
@@ -36,7 +44,7 @@ Este documento contiene la información de contexto, enlaces y descripciones té
 
 ---
 
-## 5. Distribución Merry Color (Multiplatform App)
+## 6. Distribución Merry Color (Multiplatform App)
 * **Público Dirigido:** Usuarios finales y distribuidores comerciales.
 * **Contexto:** Aplicación móvil desplegada bajo una arquitectura centralizada y publicada simultáneamente en los tres principales ecosistemas móviles[cite: 1].
 * **Enlaces:**
@@ -47,7 +55,7 @@ Este documento contiene la información de contexto, enlaces y descripciones té
 
 ---
 
-## 6. Yo Comparto (Social/Community App)
+## 7. Yo Comparto (Social/Community App)
 * **Público Dirigido:** Comunidad de usuarios en búsqueda de interacciones y economía colaborativa.
 * **Contexto:** Desarrollo de aplicación móvil multiplataforma orientada al usuario final.
 * **Enlaces:**
@@ -57,7 +65,7 @@ Este documento contiene la información de contexto, enlaces y descripciones té
 
 ---
 
-## 7. MerryBoletos (Ticketing & Access Control)
+## 8. MerryBoletos (Ticketing & Access Control)
 * **Público Dirigido:** Organizadores de eventos, personal de logística (control de acceso) y compradores finales de boletos.
 * **Contexto:** Plataforma transaccional de alto tráfico para el manejo de e-commerce y validaciones de accesos en tiempo real[cite: 1].
 * **Enlace:** *Sistema de uso interno para eventos cerrados.*

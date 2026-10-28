@@ -94,6 +94,35 @@ export const projects: ProjectItem[] = [
     preview: '/previews/sysbar.png',
   },
   {
+    id: 'lagrangiano-erp',
+    title: 'Lagrangiano',
+    subtitle: 'ERP SaaS de Logística e Inmobiliario',
+    targetAudience:
+      'Empresas de transporte de carga y operadores logísticos en México, administradoras de inmuebles, y sus equipos de operación, finanzas y cumplimiento fiscal; conductores y personal de campo mediante apps móviles.',
+    context:
+      'Producto empresarial multi-inquilino en desarrollo activo, construido en equipo bajo estrictos controles de calidad y cumplimiento normativo mexicano. Mi participación se centra en automatización de CI/CD móvil y en observabilidad del sistema.',
+    description:
+      'Plataforma ERP SaaS que unifica la operación logística y la administración inmobiliaria con cumplimiento fiscal integrado. Cubre flotas, embarques y entregas, almacén, finanzas con generación automática de pólizas contables, nómina y recursos humanos, y emisión de facturación electrónica CFDI con complemento Carta Porte a través de un PAC certificado. Se apoya en una arquitectura serverless en AWS con aislamiento de datos por cliente a nivel de base de datos (Row-Level Security), autenticación centralizada y un contrato de API definido primero con TypeSpec, del que se generan tipos y validadores compartidos por la web y las apps móviles. La calidad se protege con miles de pruebas automatizadas y reglas de arquitectura verificadas en CI; la operación, con alarmas, colas de mensajes con reintentos y avisos automáticos de despliegue y de compilaciones móviles.',
+    links: [{ label: 'Ver landing', url: 'https://dev.lagrangiano.com/landing', type: 'demo' }],
+    tags: [
+      'TypeScript',
+      'Next.js',
+      'React Native',
+      'Expo',
+      'AWS Lambda',
+      'SST',
+      'PostgreSQL',
+      'Prisma',
+      'Auth0',
+      'TypeSpec',
+      'GitHub Actions',
+      'Vitest',
+    ],
+    category: 'web',
+    status: 'production',
+    preview: '/previews/lagrangiano.png',
+  },
+  {
     id: 'pos-miscelanea',
     title: 'POS Miscelánea',
     subtitle: 'Smart POS System',
