@@ -1,0 +1,202 @@
+.hero {
+  position: relative;
+  padding-top: calc(var(--nav-h) + clamp(2.5rem, 8vw, 6rem));
+  padding-bottom: clamp(3.5rem, 8vw, 6rem);
+  overflow: hidden;
+}
+
+/* Faint engineering grid, fading out toward the bottom */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 64px 64px;
+  opacity: 0.35;
+  mask-image: radial-gradient(ellipse 70% 60% at 30% 20%, #000 10%, transparent 75%);
+  pointer-events: none;
+}
+
+.spotlight {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 640px;
+  height: 640px;
+  margin: -320px 0 0 -320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 178, 62, 0.09), transparent 62%);
+  transform: translate(30vw, 40vh);
+  pointer-events: none;
+}
+
+.grid {
+  position: relative;
+  display: grid;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.name {
+  font-size: var(--step-5);
+  font-weight: 800;
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+}
+
+.line {
+  display: block;
+}
+
+.role {
+  display: block;
+  margin-top: 0.9rem;
+  font-size: var(--step-3);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  color: var(--muted);
+}
+
+.lede {
+  margin-top: 1.5rem;
+  max-width: 54ch;
+  font-size: 1.125rem;
+  color: var(--muted);
+}
+
+.lede strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.25rem;
+  margin-top: 2.25rem;
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--mint);
+  box-shadow: 0 0 0 3px var(--mint-soft);
+}
+
+.socials {
+  display: flex;
+  gap: 0.25rem;
+  list-style: none;
+}
+
+.socials a {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-sm);
+  color: var(--muted);
+  transition:
+    color var(--dur-fast) ease,
+    background-color var(--dur-fast) ease,
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.socials a:active {
+  transform: scale(0.94);
+}
+
+.socials svg {
+  width: 19px;
+  height: 19px;
+}
+
+.photo {
+  --tick: 0px;
+  position: relative;
+  width: min(100%, 340px);
+  justify-self: center;
+  order: -1;
+}
+
+.frame {
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  background: var(--panel);
+}
+
+.frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+
+/* Corner ticks: a drafting-table detail that frames the portrait without a glow */
+.photo::before,
+.photo::after {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--amber);
+  pointer-events: none;
+}
+.photo::before {
+  top: calc(-8px - var(--tick, 0px));
+  left: calc(-8px - var(--tick, 0px));
+  border-right: 0;
+  border-bottom: 0;
+}
+.photo::after {
+  bottom: calc(-8px - var(--tick, 0px));
+  right: calc(-8px - var(--tick, 0px));
+  border-left: 0;
+  border-top: 0;
+}
+
+@media (max-width: 899px) {
+  .photo {
+    width: min(64%, 240px);
+    justify-self: start;
+  }
+}
+
+@media (min-width: 900px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr) clamp(260px, 26vw, 340px);
+    gap: clamp(3rem, 6vw, 5rem);
+  }
+  .photo {
+    order: 0;
+    width: 100%;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .socials a:hover {
+    color: var(--text);
+    background: var(--raised);
+  }
+}

@@ -1,0 +1,86 @@
+.bento {
+  display: grid;
+  gap: 1rem;
+}
+
+.cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: clamp(1.25rem, 3vw, 1.75rem);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--panel);
+  transition: border-color var(--dur) ease;
+}
+
+.cell h3 {
+  font-size: var(--step-1);
+  font-weight: 700;
+}
+
+.cell p {
+  margin-top: 0.4rem;
+  color: var(--muted);
+  font-size: 0.9375rem;
+  max-width: 48ch;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: auto;
+  padding-top: 0.5rem;
+}
+
+/* The AI cell reads as a horizontal band so it doesn't compete with Frontend */
+.ai {
+  background:
+    linear-gradient(120deg, color-mix(in srgb, var(--azure) 8%, transparent), transparent 55%),
+    var(--panel);
+}
+
+@media (min-width: 720px) {
+  .bento {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .frontend,
+  .ai {
+    grid-column: span 2;
+  }
+}
+
+@media (min-width: 1024px) {
+  .bento {
+    grid-template-columns: repeat(6, 1fr);
+  }
+  .frontend {
+    grid-column: span 4;
+  }
+  .backend {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+  .data,
+  .testing {
+    grid-column: span 2;
+  }
+  .ai {
+    grid-column: span 6;
+    flex-direction: row;
+    align-items: center;
+    gap: 2rem;
+  }
+  .ai .tags {
+    margin: 0 0 0 auto;
+    padding: 0;
+    justify-content: flex-end;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cell:hover {
+    border-color: var(--line-strong);
+  }
+}
