@@ -190,7 +190,8 @@ export const projects: ProjectItem[] = [
     tags: ['React Native', 'TypeScript', 'Redux', 'Node.js'],
     category: 'mobile',
     status: 'production',
-    preview: '/previews/merry-color.png',
+    preview: '/previews/merry-color-icon.jpg',
+    accent: '#f472b6',
   },
   {
     id: 'yo-comparto',
@@ -216,6 +217,7 @@ export const projects: ProjectItem[] = [
     category: 'mobile',
     status: 'production',
     preview: '/previews/yo-comparto.png',
+    accent: '#f59e0b',
   },
   {
     id: 'merry-boletos',
@@ -234,55 +236,43 @@ export const projects: ProjectItem[] = [
 
 export const skillGroups: SkillGroup[] = [
   {
-    category: 'Frontend',
-    icon: '⬡',
-    items: ['React', 'Next.js', 'TypeScript', 'JavaScript', 'Angular', 'Redux', 'Context API', 'Tailwind CSS'],
-    accent: '#61DAFB',
+    id: 'frontend',
+    title: 'Frontend y móvil',
+    blurb: 'Interfaces web y apps nativas publicadas en Google Play, App Store y Huawei AppGallery.',
+    items: ['React', 'React Native', 'Angular', 'Next.js', 'TypeScript', 'JavaScript', 'Redux', 'Expo', 'Tailwind CSS'],
   },
   {
-    category: 'Backend',
-    icon: '◈',
-    items: ['Node.js', 'NestJS', 'Express', 'REST APIs', 'JWT', 'Socket.io', 'TypeORM', 'Prisma'],
-    accent: '#68A063',
+    id: 'backend',
+    title: 'Backend',
+    blurb: 'APIs con arquitectura limpia, autenticación y tiempo real.',
+    items: ['NestJS', 'Node.js', 'Express', 'REST APIs', 'Socket.io', 'JWT', 'Prisma', 'TypeORM'],
   },
   {
-    category: 'Mobile',
-    icon: '◻',
-    items: ['React Native', 'iOS', 'Android', 'Google Play', 'App Store', 'Huawei AppGallery'],
-    accent: '#7C3AED',
+    id: 'data',
+    title: 'Datos',
+    blurb: 'Índices, triggers y procedimientos que validan reglas de negocio en la base.',
+    items: ['PostgreSQL', 'MySQL', 'SQL Server', 'MongoDB', 'Redis'],
   },
   {
-    category: 'Bases de Datos',
-    icon: '◧',
-    items: ['PostgreSQL', 'MySQL', 'MongoDB', 'Redis', 'SQL Server', 'Migraciones', 'Optimización'],
-    accent: '#336791',
+    id: 'testing',
+    title: 'Calidad',
+    blurb: 'Pruebas automatizadas antes de cada despliegue.',
+    items: ['Jest', 'Vitest', 'React Testing Library', 'Playwright'],
   },
   {
-    category: 'DevOps & Cloud',
-    icon: '◈',
-    items: ['Terraform', 'Docker', 'AWS', 'EC2', 'S3', 'RDS', 'CloudFront', 'Amplify', 'GitHub Actions', 'CI/CD', 'Nginx', 'PM2'],
-    accent: '#FF9900',
-  },
-  {
-    category: 'IA & Productividad',
-    icon: '◉',
-    items: ['Claude Code', 'ChatGPT', 'Gemini', 'Stitch', 'OpenAI API', 'Gemini API', 'GitHub Copilot', 'Cursor'],
-    accent: '#a855f7',
-  },
-  {
-    category: 'Testing',
-    icon: '◻',
-    items: ['Jest', 'React Testing Library', 'Playwright'],
-    accent: '#4F9EFF',
+    id: 'ai',
+    title: 'IA aplicada',
+    blurb: 'APIs de OpenAI y Gemini dentro de productos, y agentes que revisan, prueban y documentan mi código.',
+    items: ['OpenAI API', 'Gemini API', 'Claude Code', 'GitHub Copilot'],
   },
 ];
 
 export const softSkills: SoftSkill[] = [
-  { label: 'Liderazgo Técnico', description: 'Toma de decisiones arquitectónicas y responsabilidad end-to-end del ciclo de desarrollo.' },
-  { label: 'Ética Técnica', description: 'Código limpio, documentación real y transparencia en estimaciones y compromisos.' },
-  { label: 'Colaboración y Mentoría', description: 'Trabajo en equipos multidisciplinarios bajo Scrum/Agile con cultura de code review.' },
-  { label: 'Resolución Analítica', description: 'Diagnóstico sistemático de problemas complejos en producción con impacto medible.' },
-  { label: 'Inglés Técnico', description: 'Nivel fluido — documentación, comunicación técnica, APIs en inglés y colaboración con equipos internacionales.' },
+  { label: 'Liderazgo técnico', description: 'Decisiones de arquitectura y responsabilidad de punta a punta del ciclo de desarrollo.' },
+  { label: 'Ética técnica', description: 'Código limpio, documentación real y estimaciones honestas.' },
+  { label: 'Colaboración con mentores', description: 'Equipos multidisciplinarios bajo Scrum, con cultura de code review y aprendizaje mutuo.' },
+  { label: 'Resolución analítica', description: 'Diagnóstico sistemático de fallas en producción con impacto medible.' },
+  { label: 'Inglés técnico', description: 'Nivel intermedio: documentación, APIs y especificaciones en inglés sin fricción.' },
 ];
 
 export const education: EducationItem[] = [

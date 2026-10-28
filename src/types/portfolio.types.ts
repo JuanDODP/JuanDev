@@ -43,13 +43,15 @@ export interface ProjectItem {
   category: ProjectCategory;
   status: ProjectStatus;
   preview?: string;
+  /** Brand color for app-icon previews of mobile projects. */
+  accent?: string;
 }
 
 export interface SkillGroup {
-  category: string;
-  icon: string;
+  id: string;
+  title: string;
+  blurb: string;
   items: string[];
-  accent?: string;
 }
 
 export interface EducationItem {
