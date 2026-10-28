@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router';
-import Navbar from './components/layout/Navbar';
-import Footer from './components/layout/Footer';
+import { Footer, Navbar, ScrollManager } from './components/layout';
 import Home from './pages/Home';
 import ProjectDetail from './pages/ProjectDetail';
 import CustomCursor from './components/ui/CustomCursor';
@@ -40,6 +39,7 @@ function NoiseOverlay() {
 function App() {
   return (
     <BrowserRouter>
+      <ScrollManager />
       {/* ── Global overlay layers ── */}
       <AmbientOrbs />
       <CustomCursor />
