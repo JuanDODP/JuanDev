@@ -1,0 +1,26 @@
+.heading {
+  display: grid;
+  gap: 1rem 3rem;
+  margin-bottom: clamp(2.5rem, 5vw, 3.5rem);
+}
+
+.title {
+  font-size: var(--step-4);
+  max-width: 16ch;
+}
+
+.lede {
+  color: var(--muted);
+  font-size: 1.0625rem;
+  max-width: 52ch;
+}
+
+@media (min-width: 900px) {
+  .heading {
+    grid-template-columns: 1fr 1fr;
+    align-items: end;
+  }
+  .lede {
+    justify-self: end;
+  }
+}

@@ -1,0 +1,76 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 44px;
+  padding-inline: 1.15rem;
+  border-radius: var(--radius);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  white-space: nowrap;
+  border: 1px solid transparent;
+  transition:
+    background-color var(--dur-fast) ease,
+    border-color var(--dur-fast) ease,
+    color var(--dur-fast) ease,
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.button:active {
+  transform: scale(0.97);
+}
+
+.button svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.primary {
+  position: relative;
+  overflow: hidden;
+  background: var(--amber);
+  color: var(--ink);
+}
+
+/* Light sweep on hover; it resets instantly on leave so it never plays backwards */
+.primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.5) 50%, transparent 70%);
+  transform: translateX(-120%);
+  pointer-events: none;
+}
+
+.ghost {
+  border-color: var(--line-strong);
+  color: var(--text);
+}
+
+.small {
+  height: 36px;
+  padding-inline: 0.85rem;
+  font-size: 0.875rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .primary::after {
+    display: none;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .primary:hover {
+    background: #ffc266;
+  }
+  .primary:hover::after {
+    transform: translateX(120%);
+    transition: transform 700ms var(--ease-out);
+  }
+  .ghost:hover {
+    border-color: var(--muted);
+    background: var(--raised);
+  }
+}

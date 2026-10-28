@@ -1,0 +1,17 @@
+.tile {
+  --size: 40px;
+  width: var(--size);
+  height: var(--size);
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: calc(var(--size) * 0.26);
+  color: var(--tone);
+  background: color-mix(in srgb, var(--tone) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--tone) 38%, transparent);
+}
+
+.tile svg {
+  width: 52%;
+  height: 52%;
+}
