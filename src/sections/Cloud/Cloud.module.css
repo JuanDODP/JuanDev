@@ -1,0 +1,127 @@
+.cloud {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(60% 40% at 15% 0%, color-mix(in srgb, var(--aws-compute) 9%, transparent), transparent 70%),
+    var(--ink);
+}
+
+/* Signature stripe: one band per AWS service category used below */
+.stripe {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 3px;
+  display: flex;
+}
+
+.stripe span {
+  flex: 1;
+  transform-origin: left;
+}
+
+.awsMark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+  padding: 0.35rem 0.75rem 0.35rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, #ff9900 40%, transparent);
+  background: color-mix(in srgb, #ff9900 10%, transparent);
+  color: #ffb84d;
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.awsMark svg {
+  width: 22px;
+  height: 22px;
+}
+
+.subheading {
+  margin-top: clamp(3.5rem, 7vw, 5rem);
+  margin-bottom: 1.5rem;
+  font-size: var(--step-2);
+  font-weight: 700;
+}
+
+.services {
+  list-style: none;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.service {
+  display: flex;
+  gap: 1rem;
+  padding: 1.1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--panel);
+  transition:
+    border-color var(--dur) ease,
+    transform var(--dur) var(--ease-out);
+}
+
+.service h4 {
+  font-size: 1rem;
+  font-stretch: var(--semi-wide);
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+}
+
+.service p {
+  color: var(--muted);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.tools {
+  list-style: none;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.tool {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+}
+
+.tool strong {
+  display: block;
+  font-size: 0.9375rem;
+  font-weight: 650;
+}
+
+.tool span {
+  font-size: 0.8125rem;
+  color: var(--faint);
+  line-height: 1.4;
+}
+
+@media (min-width: 640px) {
+  .services,
+  .tools {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .services {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .tools {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .service:hover {
+    border-color: color-mix(in srgb, var(--tone) 45%, transparent);
+    transform: translateY(-2px);
+  }
+}
