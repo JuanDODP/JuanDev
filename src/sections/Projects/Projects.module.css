@@ -1,0 +1,23 @@
+.grid {
+  display: grid;
+  gap: 1rem;
+}
+
+@media (min-width: 720px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1.25rem;
+  }
+  .grid > * {
+    grid-column: span 2;
+  }
+  .grid > :nth-child(-n + 2) {
+    grid-column: span 3;
+  }
+}
