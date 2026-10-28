@@ -1,0 +1,92 @@
+.ai {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(50% 35% at 50% 38%, color-mix(in srgb, var(--violet) 10%, transparent), transparent 75%),
+    var(--ink);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+  padding: 0.35rem 0.75rem 0.35rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--claude) 40%, transparent);
+  background: color-mix(in srgb, var(--claude) 10%, transparent);
+  color: #ec9a7c;
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.badge svg {
+  width: 16px;
+  height: 16px;
+}
+
+.footer {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: clamp(3rem, 6vw, 4.5rem);
+  padding-top: 2rem;
+  border-top: 1px solid var(--line);
+}
+
+.footer h3 {
+  font-size: 1rem;
+  font-stretch: var(--semi-wide);
+  font-weight: 650;
+  color: var(--muted);
+  margin-bottom: 0.75rem;
+}
+
+.tools {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tools li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 38px;
+  padding-inline: 0.85rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--panel);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.tools svg {
+  width: 16px;
+  height: 16px;
+}
+
+.proof {
+  padding: 1.25rem 1.35rem;
+  border-radius: var(--radius-lg);
+  border: 1px dashed var(--violet-line);
+  background: var(--violet-soft);
+}
+
+.proof p {
+  color: var(--muted);
+  font-size: 0.9375rem;
+}
+
+.proof strong {
+  color: var(--text);
+  font-weight: 650;
+}
+
+@media (min-width: 960px) {
+  .footer {
+    grid-template-columns: 1fr 1.2fr;
+    align-items: start;
+    gap: 3rem;
+  }
+}

@@ -1,0 +1,333 @@
+.hub {
+  position: relative;
+  display: grid;
+  gap: 1rem;
+}
+
+.column {
+  list-style: none;
+  display: grid;
+  gap: 1rem;
+}
+
+/* ── Stage nodes ── */
+.node {
+  position: relative;
+  z-index: 1;
+  padding: 1.1rem 1.15rem 1.15rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--panel);
+  outline: none;
+  transition:
+    border-color var(--dur) ease,
+    box-shadow var(--dur) ease,
+    transform var(--dur) var(--ease-out);
+}
+
+.node[data-active='true'] {
+  border-color: var(--violet-line);
+  box-shadow:
+    0 0 0 1px var(--violet-line),
+    0 18px 50px -20px rgba(167, 139, 250, 0.45);
+  transform: translateY(-2px);
+}
+
+.node:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 3px;
+}
+
+.nodeHead {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.55rem;
+}
+
+.nodeHead h3 {
+  font-size: 1.0625rem;
+  font-stretch: var(--semi-wide);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.node p {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.chips {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.8rem;
+}
+
+.chips li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  height: 24px;
+  padding-inline: 0.55rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  background: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--muted);
+  transition:
+    border-color var(--dur) ease,
+    color var(--dur) ease;
+}
+
+.chips svg {
+  width: 12px;
+  height: 12px;
+}
+
+.node[data-active='true'] .chips li {
+  border-color: var(--violet-line);
+  color: var(--text);
+}
+
+/* ── Claude Code card ── */
+.center {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1.75rem 1.25rem 1.4rem;
+  border-radius: calc(var(--radius-lg) + 4px);
+  border: 1px solid color-mix(in srgb, var(--claude) 45%, transparent);
+  background:
+    radial-gradient(120% 70% at 50% 0%, color-mix(in srgb, var(--claude) 16%, transparent), transparent 70%),
+    var(--raised);
+  box-shadow: 0 40px 90px -40px color-mix(in srgb, var(--claude) 55%, transparent);
+}
+
+.logo {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  color: var(--claude);
+  background: color-mix(in srgb, var(--claude) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--claude) 40%, transparent);
+}
+
+.logo svg {
+  width: 34px;
+  height: 34px;
+}
+
+/* Slow breathing halo: the hub's heartbeat, paused for reduced motion */
+.logo::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  border: 1px solid var(--claude);
+  animation: halo 2.6s var(--ease-out) infinite;
+  pointer-events: none;
+}
+
+@keyframes halo {
+  from {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.45);
+  }
+}
+
+.centerTitle {
+  margin-top: 1rem;
+  font-size: var(--step-2);
+  font-weight: 750;
+}
+
+.centerSub {
+  margin-top: 0.25rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.console {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  width: 100%;
+  min-height: 4.6rem;
+  margin-top: 1.25rem;
+  padding: 0.75rem 0.85rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: #06080d;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  line-height: 1.6;
+  text-align: left;
+}
+
+.caret {
+  color: var(--claude);
+  font-weight: 700;
+}
+
+.status {
+  color: var(--text);
+  animation: status-in 320ms var(--ease-out);
+}
+
+@keyframes status-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+    filter: blur(3px);
+  }
+}
+
+.steps {
+  list-style: none;
+  display: flex;
+  gap: 6px;
+  margin-top: 1rem;
+}
+
+.steps li {
+  width: 18px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--line-strong);
+  transition:
+    background-color var(--dur) ease,
+    transform var(--dur) var(--ease-out);
+}
+
+.steps li[data-state='done'] {
+  background: color-mix(in srgb, var(--violet) 55%, transparent);
+}
+
+.steps li[data-state='active'] {
+  background: var(--claude);
+  transform: scaleX(1.5);
+}
+
+/* ── Connectors (desktop) ── */
+.wires {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.wire,
+.pulse {
+  fill: none;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+}
+
+.wire {
+  stroke: var(--line-strong);
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition:
+    stroke-dashoffset 900ms var(--ease-out),
+    stroke var(--dur) ease;
+}
+
+.hub[data-drawn='true'] .wire {
+  stroke-dashoffset: 0;
+}
+
+g[data-active='true'] .wire {
+  stroke: var(--violet-line);
+}
+
+/* A short bright segment that travels the active wire */
+.pulse {
+  stroke: var(--violet);
+  stroke-width: 2.5;
+  stroke-dasharray: 0.14 0.86;
+  opacity: 0;
+  filter: drop-shadow(0 0 6px var(--violet));
+}
+
+g[data-active='true'] .pulse {
+  opacity: 1;
+  animation: travel 1.3s linear infinite;
+}
+
+/* Left stages feed into Claude Code (node → center); right stages flow out of it */
+.left {
+  animation-direction: reverse !important;
+}
+
+@keyframes travel {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  .column {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .column > :last-child:nth-child(odd) {
+    grid-column: span 2;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hub {
+    grid-template-columns: minmax(0, 1fr) 300px minmax(0, 1fr);
+    gap: 3.5rem;
+    align-items: center;
+  }
+  .center {
+    order: 0;
+  }
+  .leftCol {
+    order: -1;
+  }
+}
+
+@media (max-width: 1023px) {
+  .center {
+    order: -1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo::after,
+  g[data-active='true'] .pulse {
+    animation: none;
+  }
+  .status {
+    animation-name: fade-only;
+  }
+  .wire {
+    transition: none;
+  }
+}
+
+@keyframes fade-only {
+  from {
+    opacity: 0;
+  }
+}
