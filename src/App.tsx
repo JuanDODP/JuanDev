@@ -1,61 +1,30 @@
-import { BrowserRouter, Routes, Route } from 'react-router';
-import { Footer, Navbar, ScrollManager } from './components/layout';
-import Home from './pages/Home';
-import ProjectDetail from './pages/ProjectDetail';
-import CustomCursor from './components/ui/CustomCursor';
-import AmbientOrbs from './components/ui/AmbientOrbs';
-import ScrollProgress from './components/ui/ScrollProgress';
+import { lazy, Suspense } from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router';
+import { Footer, Navbar, PointerGlow, ScrollManager, ScrollProgress } from './components/layout';
+import { Home } from './pages/Home';
 
-/* ── SVG film-grain noise filter ── */
-function NoiseOverlay() {
-  return (
-    <>
-      <svg aria-hidden style={{ position: 'fixed', width: 0, height: 0, zIndex: -1 }}>
-        <filter id="portfolio-noise">
-          <feTurbulence
-            type="fractalNoise"
-            baseFrequency="0.68"
-            numOctaves="4"
-            stitchTiles="stitch"
-          />
-          <feColorMatrix type="saturate" values="0" />
-        </filter>
-      </svg>
-      <div
-        aria-hidden
-        style={{
-          position: 'fixed', inset: 0,
-          filter: 'url(#portfolio-noise)',
-          opacity: 0.032,
-          zIndex: 9991,
-          pointerEvents: 'none',
-          mixBlendMode: 'overlay',
-        }}
-      />
-    </>
-  );
-}
+// The detail page is only reached by navigation, so it ships in its own chunk.
+const ProjectDetail = lazy(() => import('./pages/ProjectDetail').then((m) => ({ default: m.ProjectDetail })));
 
-function App() {
+export default function App() {
   return (
     <BrowserRouter>
       <ScrollManager />
-      {/* ── Global overlay layers ── */}
-      <AmbientOrbs />
-      <CustomCursor />
+      <PointerGlow />
       <ScrollProgress />
-      <NoiseOverlay />
-
+      <a href="#main" className="skip-link">
+        Saltar al contenido
+      </a>
       <Navbar />
-      <main style={{ flex: 1 }}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/projects/:id" element={<ProjectDetail />} />
-        </Routes>
+      <main id="main" style={{ flex: 1 }}>
+        <Suspense fallback={null}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/projects/:id" element={<ProjectDetail />} />
+          </Routes>
+        </Suspense>
       </main>
       <Footer />
     </BrowserRouter>
   );
 }
-
-export default App;

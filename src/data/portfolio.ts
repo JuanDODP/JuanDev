@@ -5,7 +5,6 @@ import type {
   SkillGroup,
   EducationItem,
   SoftSkill,
-  CertificationItem,
 } from '../types/portfolio.types';
 
 export const profile: ProfileData = {
@@ -288,8 +287,4 @@ export const education: EducationItem[] = [
     period: 'Sep 2022 – Ago 2024',
     location: 'México',
   },
-];
-
-export const certifications: CertificationItem[] = [
-  // Certificaciones próximamente
 ];
