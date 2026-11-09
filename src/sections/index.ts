@@ -5,4 +5,5 @@ export { AIWorkflow } from './AIWorkflow';
 export { Stack } from './Stack';
 export { Projects } from './Projects';
 export { Experience } from './Experience';
+export { Certifications } from './Certifications';
 export { Contact } from './Contact';

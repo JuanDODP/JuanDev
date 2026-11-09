@@ -1,4 +1,4 @@
-import { About, AIWorkflow, Cloud, Contact, Experience, Hero, Projects, Stack } from '../../sections';
+import { About, AIWorkflow, Certifications, Cloud, Contact, Experience, Hero, Projects, Stack } from '../../sections';
 
 export function Home() {
   return (
@@ -10,6 +10,7 @@ export function Home() {
       <Stack />
       <Projects />
       <Experience />
+      <Certifications />
       <Contact />
     </>
   );

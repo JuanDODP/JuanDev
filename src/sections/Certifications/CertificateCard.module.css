@@ -1,0 +1,363 @@
+.card {
+  --glow: var(--amber);
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background:
+    radial-gradient(120% 60% at 50% 0%, color-mix(in srgb, var(--glow) 10%, transparent), transparent 60%),
+    var(--panel);
+  overflow: hidden;
+}
+
+/* ─── Certificate stage ──────────────────────────────────────── */
+.stage {
+  position: relative;
+  padding: clamp(1rem, 3vw, 1.5rem) clamp(1rem, 3vw, 1.5rem) 0;
+}
+
+.frame {
+  position: relative;
+  display: block;
+  width: 100%;
+  border-radius: var(--radius);
+  perspective: 900px;
+  cursor: zoom-in;
+}
+
+.frame:focus-visible {
+  outline-offset: 4px;
+}
+
+.paper {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #f7f8fa;
+  transform-style: preserve-3d;
+  will-change: transform;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.06),
+    0 24px 48px -24px rgba(0, 0, 0, 0.75),
+    0 0 60px -20px color-mix(in srgb, var(--glow) 45%, transparent);
+}
+
+.paper img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1600 / 1190;
+}
+
+/* Diagonal light band swept across by GSAP on entrance and hover */
+.sheen {
+  position: absolute;
+  inset: -20% 0;
+  background: linear-gradient(
+    105deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.55) 46%,
+    color-mix(in srgb, var(--glow) 35%, transparent) 52%,
+    transparent 66%
+  );
+  mix-blend-mode: soft-light;
+  transform: translateX(-130%);
+  pointer-events: none;
+}
+
+/* Soft highlight that follows the pointer while tilting */
+.glare {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at var(--sx, 50%) var(--sy, 50%),
+    rgba(255, 255, 255, 0.35),
+    transparent 55%
+  );
+  mix-blend-mode: overlay;
+  opacity: 0;
+  transition: opacity 300ms ease;
+  pointer-events: none;
+}
+
+.hint {
+  position: absolute;
+  left: 50%;
+  bottom: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(10, 13, 20, 0.85);
+  backdrop-filter: blur(6px);
+  border: 1px solid var(--line-strong);
+  color: var(--text);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  opacity: 0;
+  transform: translate(-50%, 6px);
+  transition:
+    opacity var(--dur) ease,
+    transform var(--dur) var(--ease-out);
+  pointer-events: none;
+}
+
+.hint svg {
+  width: 16px;
+  height: 16px;
+}
+
+.frame:focus-visible .hint {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .frame:hover .glare {
+    opacity: 1;
+  }
+  .frame:hover .hint {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+/* ─── Seal ───────────────────────────────────────────────────── */
+.seal {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.4rem;
+  width: clamp(72px, 18vw, 92px);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #2a2f3c, var(--ink) 70%);
+  border: 1px solid var(--amber-line);
+  box-shadow:
+    0 0 0 4px var(--panel),
+    0 12px 30px -8px rgba(0, 0, 0, 0.7),
+    0 0 28px -6px color-mix(in srgb, var(--amber) 55%, transparent);
+  z-index: 3;
+  pointer-events: none;
+}
+
+.ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  fill: var(--amber);
+  font-family: var(--font-mono);
+  font-size: 8.4px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  animation: spin 18s linear infinite;
+}
+
+.sealCore {
+  display: grid;
+  place-items: center;
+  line-height: 1;
+  color: var(--text);
+}
+
+.sealCore strong {
+  font-size: 1.35rem;
+  font-weight: 750;
+  font-stretch: var(--wide);
+}
+
+.sealCore small {
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  margin-top: 0.2rem;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ─── Body ───────────────────────────────────────────────────── */
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  flex: 1;
+  padding: clamp(1.1rem, 3vw, 1.5rem);
+}
+
+.issuer {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--faint);
+}
+
+.issuer svg {
+  width: 15px;
+  height: 15px;
+  color: #a435f0;
+}
+
+.title {
+  font-size: var(--step-2);
+  font-stretch: var(--semi-wide);
+  line-height: 1.15;
+}
+
+.instructors {
+  margin-top: -0.4rem;
+  color: var(--muted);
+  font-size: 0.9375rem;
+}
+
+.meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.meta > div {
+  padding: 0.65rem 0.8rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--ink) 60%, transparent);
+}
+
+.meta dt {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--faint);
+}
+
+.meta dd {
+  font-weight: 600;
+  font-size: 0.9375rem;
+}
+
+.credential {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 0.25rem 0.75rem;
+  padding: 0.7rem 0.8rem;
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radius);
+}
+
+.label {
+  grid-column: 1 / -1;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--faint);
+}
+
+.credential code {
+  min-width: 0;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text);
+  overflow-wrap: anywhere;
+}
+
+.verified {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  background: var(--mint-soft);
+  color: var(--mint);
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.verified svg {
+  width: 15px;
+  height: 15px;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: auto;
+  padding-top: 0.35rem;
+}
+
+.verify,
+.pdf {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 44px;
+  padding-inline: 1rem;
+  border-radius: var(--radius);
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition:
+    background-color var(--dur-fast) ease,
+    border-color var(--dur-fast) ease,
+    color var(--dur-fast) ease,
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.verify svg,
+.pdf svg {
+  width: 17px;
+  height: 17px;
+}
+
+.verify {
+  flex: 1;
+  justify-content: center;
+  background: var(--amber);
+  color: var(--ink);
+}
+
+.pdf {
+  border: 1px solid var(--line-strong);
+  color: var(--text);
+}
+
+.verify:active,
+.pdf:active {
+  transform: scale(0.97);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .verify:hover {
+    background: color-mix(in srgb, var(--amber) 88%, white);
+  }
+  .pdf:hover {
+    border-color: var(--muted);
+  }
+}
+
+@media (min-width: 480px) {
+  .verify {
+    flex: 0 1 auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ring {
+    animation: none;
+  }
+}

@@ -1,0 +1,161 @@
+.dialog {
+  margin: auto;
+  width: min(100% - 2rem, 1040px);
+  max-height: calc(100dvh - 2rem);
+  padding: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-lg);
+  background: var(--panel);
+  color: var(--text);
+  overflow: auto;
+  overscroll-behavior: contain;
+  box-shadow: 0 40px 120px -20px rgba(0, 0, 0, 0.8);
+}
+
+.dialog::backdrop {
+  background: rgba(5, 7, 12, 0.78);
+  backdrop-filter: blur(6px);
+}
+
+.panel {
+  display: grid;
+  gap: 1rem;
+  padding: clamp(1rem, 3vw, 1.5rem);
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.issuer {
+  font-size: 0.8125rem;
+  color: var(--faint);
+}
+
+.title {
+  font-size: var(--step-1);
+  font-stretch: var(--semi-wide);
+  margin-top: 0.2rem;
+}
+
+.close {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  color: var(--muted);
+  transition:
+    color var(--dur-fast) ease,
+    border-color var(--dur-fast) ease,
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.close svg {
+  width: 20px;
+  height: 20px;
+}
+
+.close:active {
+  transform: scale(0.94);
+}
+
+.image {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: calc(100dvh - 13rem);
+  margin-inline: auto;
+  border-radius: var(--radius);
+  background: #f7f8fa;
+}
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1rem;
+}
+
+.id {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--faint);
+  word-break: break-all;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.primary,
+.ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  height: 40px;
+  padding-inline: 1rem;
+  border-radius: var(--radius);
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition:
+    background-color var(--dur-fast) ease,
+    border-color var(--dur-fast) ease,
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.primary svg,
+.ghost svg {
+  width: 17px;
+  height: 17px;
+}
+
+.primary {
+  background: var(--amber);
+  color: var(--ink);
+}
+
+.ghost {
+  border: 1px solid var(--line-strong);
+  color: var(--text);
+}
+
+.primary:active,
+.ghost:active {
+  transform: scale(0.97);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .close:hover {
+    color: var(--text);
+    border-color: var(--line-strong);
+  }
+  .primary:hover {
+    background: color-mix(in srgb, var(--amber) 88%, white);
+  }
+  .ghost:hover {
+    border-color: var(--muted);
+  }
+}
+
+/* The shared certificate image glides between card and lightbox. */
+::view-transition-group(certificate-hero) {
+  animation-duration: 480ms;
+  animation-timing-function: cubic-bezier(0.2, 0.9, 0.1, 1);
+}
+
+::view-transition-old(certificate-hero),
+::view-transition-new(certificate-hero) {
+  height: 100%;
+  object-fit: cover;
+  animation: none;
+  mix-blend-mode: normal;
+}
