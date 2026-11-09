@@ -5,7 +5,10 @@ import type {
   SkillGroup,
   EducationItem,
   SoftSkill,
+  CertificationItem,
 } from '../types/portfolio.types';
+import nestPdf from '../docs/certificados/Nest.pdf';
+import reactNativePdf from '../docs/certificados/REACT NATIVE.pdf';
 
 export const profile: ProfileData = {
   name: 'Juan Diego Domínguez Castaño',
@@ -286,5 +289,36 @@ export const education: EducationItem[] = [
     degree: 'T.S.U. Desarrollo de Software Multiplataforma',
     period: 'Sep 2022 – Ago 2024',
     location: 'México',
+  },
+];
+
+export const certifications: CertificationItem[] = [
+  {
+    id: 'nestjs',
+    title: 'Nest: Desarrollo backend escalable con Node',
+    issuer: 'Udemy',
+    instructors: 'Fernando Herrera · DevTalles',
+    issued: '20 de julio de 2026',
+    hours: 24,
+    credentialId: 'UC-82775604-688d-433f-adb8-4d4878cd5e35',
+    verifyUrl: 'https://ude.my/UC-82775604-688d-433f-adb8-4d4878cd5e35',
+    image: '/certificates/nestjs.jpg',
+    pdf: nestPdf,
+    skills: ['NestJS', 'Node.js', 'TypeScript'],
+    accent: '#e0234e',
+  },
+  {
+    id: 'react-native',
+    title: 'React Native CLI: Aplicaciones para iOS y Android',
+    issuer: 'Udemy',
+    instructors: 'Fernando Herrera · DevTalles',
+    issued: '20 de julio de 2026',
+    hours: 33,
+    credentialId: 'UC-86b92d3c-6a93-43d9-a9e3-ec3d585ae384',
+    verifyUrl: 'https://ude.my/UC-86b92d3c-6a93-43d9-a9e3-ec3d585ae384',
+    image: '/certificates/react-native.jpg',
+    pdf: reactNativePdf,
+    skills: ['React Native', 'iOS', 'Android'],
+    accent: '#61dafb',
   },
 ];

@@ -1,6 +1,8 @@
 import type { IconType } from 'react-icons';
 import {
+  SiAndroid,
   SiAngular,
+  SiApple,
   SiAuth0,
   SiClaude,
   SiDocker,
@@ -50,6 +52,8 @@ export const techIcons: Record<string, TechIcon> = {
   Expo: { icon: SiExpo, color: TEXT },
   'Node.js': { icon: SiNodedotjs, color: '#5fa04e' },
   NestJS: { icon: SiNestjs, color: '#e0234e' },
+  iOS: { icon: SiApple, color: TEXT },
+  Android: { icon: SiAndroid, color: '#3ddc84' },
   Express: { icon: SiExpress, color: TEXT },
   'Socket.io': { icon: SiSocketdotio, color: TEXT },
   Prisma: { icon: SiPrisma, color: TEXT },

@@ -65,3 +65,21 @@ export interface SoftSkill {
   label: string;
   description: string;
 }
+
+export interface CertificationItem {
+  id: string;
+  title: string;
+  issuer: string;
+  instructors: string;
+  /** Human-readable issue date, as printed on the certificate. */
+  issued: string;
+  hours: number;
+  credentialId: string;
+  verifyUrl: string;
+  /** Rendered first page, used for the card and the lightbox. */
+  image: string;
+  pdf: string;
+  skills: string[];
+  /** Accent used for the card's glow and seal. */
+  accent: string;
+}
