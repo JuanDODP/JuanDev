@@ -6,9 +6,12 @@ import type {
   EducationItem,
   SoftSkill,
   CertificationItem,
+  CertificationDomainInfo,
 } from '../types/portfolio.types';
 import nestPdf from '../docs/certificados/web/Nest.pdf';
 import reactNativePdf from '../docs/certificados/web/REACT NATIVE.pdf';
+import reactProPdf from '../docs/certificados/web/react-pro.pdf';
+import awsCloudEssentialsPdf from '../docs/certificados/Cloud/ae789251-4e26-4731-9def-49eccba6034d.pdf';
 
 export const profile: ProfileData = {
   name: 'Juan Diego Domínguez Castaño',
@@ -292,9 +295,58 @@ export const education: EducationItem[] = [
   },
 ];
 
+export const certificationDomains: CertificationDomainInfo[] = [
+  {
+    id: 'web',
+    label: 'Web',
+    summary: 'Del navegador al servidor: interfaces, apps móviles y APIs construidas con el ecosistema JavaScript y TypeScript.',
+    tracks: [
+      { id: 'frontend', label: 'Frontend', summary: 'Interfaces web y móviles con React y React Native.' },
+      { id: 'backend', label: 'Backend', summary: 'APIs y servicios escalables con Node.js y NestJS.' },
+    ],
+  },
+  {
+    id: 'cloud',
+    label: 'Cloud',
+    summary: 'Fundamentos de infraestructura en la nube para desplegar y operar lo que construyo.',
+    tracks: [{ id: 'cloud', label: 'AWS', summary: 'Cómputo, almacenamiento y redes en Amazon Web Services.' }],
+  },
+];
+
 export const certifications: CertificationItem[] = [
   {
+    id: 'react-pro',
+    track: 'frontend',
+    title: 'React PRO: Lleva tus bases al siguiente nivel',
+    issuer: 'Udemy',
+    instructors: 'Fernando Herrera · DevTalles',
+    issued: '17 de noviembre de 2026',
+    hours: 25,
+    credentialId: 'UC-d3017b45-1a33-47ee-9cdc-1417a1c4f885',
+    verifyUrl: 'https://ude.my/UC-d3017b45-1a33-47ee-9cdc-1417a1c4f885',
+    image: '/certificates/react-pro.jpg',
+    pdf: reactProPdf,
+    skills: ['React', 'TypeScript', 'Patrones de diseño'],
+    accent: '#58c4dc',
+  },
+  {
+    id: 'react-native',
+    track: 'frontend',
+    title: 'React Native CLI: Aplicaciones para iOS y Android',
+    issuer: 'Udemy',
+    instructors: 'Fernando Herrera · DevTalles',
+    issued: '20 de julio de 2026',
+    hours: 33,
+    credentialId: 'UC-86b92d3c-6a93-43d9-a9e3-ec3d585ae384',
+    verifyUrl: 'https://ude.my/UC-86b92d3c-6a93-43d9-a9e3-ec3d585ae384',
+    image: '/certificates/react-native.jpg',
+    pdf: reactNativePdf,
+    skills: ['React Native', 'iOS', 'Android'],
+    accent: '#61dafb',
+  },
+  {
     id: 'nestjs',
+    track: 'backend',
     title: 'Nest: Desarrollo backend escalable con Node',
     issuer: 'Udemy',
     instructors: 'Fernando Herrera · DevTalles',
@@ -308,17 +360,15 @@ export const certifications: CertificationItem[] = [
     accent: '#e0234e',
   },
   {
-    id: 'react-native',
-    title: 'React Native CLI: Aplicaciones para iOS y Android',
-    issuer: 'Udemy',
-    instructors: 'Fernando Herrera · DevTalles',
-    issued: '20 de julio de 2026',
-    hours: 33,
-    credentialId: 'UC-86b92d3c-6a93-43d9-a9e3-ec3d585ae384',
-    verifyUrl: 'https://ude.my/UC-86b92d3c-6a93-43d9-a9e3-ec3d585ae384',
-    image: '/certificates/react-native.jpg',
-    pdf: reactNativePdf,
-    skills: ['React Native', 'iOS', 'Android'],
-    accent: '#61dafb',
+    id: 'aws-cloud-essentials',
+    track: 'cloud',
+    title: 'AWS SimuLearn: Cloud Computing Essentials',
+    issuer: 'AWS Training & Certification',
+    instructors: 'AWS Skill Builder · Laboratorio práctico',
+    issued: '6 de noviembre de 2026',
+    image: '/certificates/aws-cloud-essentials.jpg',
+    pdf: awsCloudEssentialsPdf,
+    skills: ['AWS', 'Cloud Computing', 'Infraestructura'],
+    accent: '#ff9900',
   },
 ];

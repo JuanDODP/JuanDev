@@ -1,9 +1,10 @@
 import { useId, useRef, type CSSProperties, type PointerEvent } from 'react';
-import { SiUdemy } from 'react-icons/si';
 import { TbExternalLink, TbFileTypePdf, TbRosetteDiscountCheck, TbZoomIn } from 'react-icons/tb';
 import { gsap, useGSAP, EASE_OUT, MOTION_OK } from '../../lib/gsap';
 import { TechTag } from '../../components/ui';
 import type { CertificationItem } from '../../types/portfolio.types';
+import { issuerBrand } from './brand';
+import { useCertifications } from './context';
 import styles from './CertificateCard.module.css';
 
 const HOVER_QUERY = '(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)';
@@ -12,12 +13,16 @@ const MAX_TILT = 9;
 
 type Props = {
   cert: CertificationItem;
+  /** Position within its lane, used to stagger entrances. */
   index: number;
-  onOpen: (cert: CertificationItem, source: HTMLElement) => void;
+  /** Lay the card out horizontally on wide screens (lanes with a single certificate). */
+  wide?: boolean;
 };
 
-export function CertificateCard({ cert, index, onOpen }: Props) {
+export function CertificateCard({ cert, index, wide = false }: Props) {
   const root = useRef<HTMLElement>(null);
+  const { entrance, direction, open } = useCertifications();
+  const issuer = issuerBrand(cert.issuer);
   const paper = useRef<HTMLDivElement>(null);
   const pointer = useRef<{
     enter: () => void;
@@ -27,20 +32,25 @@ export function CertificateCard({ cert, index, onOpen }: Props) {
 
   // Scroll entrance: the card lifts out of depth, the certificate wipes open,
   // the seal stamps down and the credential ID decodes like a live verification.
+  // After a tab switch the same choreography plays faster and slides in sideways.
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
       mm.add(MOTION_OK, () => {
         const q = gsap.utils.selector(root);
+        const switching = entrance === 'switch';
         const tl = gsap.timeline({
-          delay: index * 0.12,
-          scrollTrigger: { trigger: root.current, start: 'top 85%', once: true },
+          delay: switching ? 0.08 + index * 0.07 : index * 0.12,
+          scrollTrigger: { trigger: root.current, start: 'top 90%', once: true },
         });
+        if (switching) tl.timeScale(1.6);
 
         tl.from(root.current, {
           autoAlpha: 0,
-          y: 70,
-          rotateX: -12,
+          x: switching ? direction * 60 : 0,
+          y: switching ? 24 : 70,
+          rotateX: switching ? 0 : -12,
+          rotateY: switching ? direction * 8 : 0,
           transformPerspective: 1400,
           transformOrigin: '50% 100%',
           duration: 1.1,
@@ -52,8 +62,10 @@ export function CertificateCard({ cert, index, onOpen }: Props) {
           .fromTo(q(`.${styles.sheen}`), { xPercent: -130 }, { xPercent: 130, duration: 1.1, ease: 'power2.inOut' }, 0.7)
           .from(q(`.${styles.seal}`), { scale: 0, rotate: -160, autoAlpha: 0, duration: 0.8, ease: 'back.out(2.2)' }, 0.75)
           .from(q('[data-fade]'), { autoAlpha: 0, y: 14, duration: 0.6, stagger: 0.06, ease: EASE_OUT }, 0.45)
-          .to(q('[data-id]'), { duration: 1.3, scrambleText: { text: cert.credentialId, chars: HEX, speed: 0.5 } }, 0.8)
-          .from(q(`.${styles.verified}`), { autoAlpha: 0, scale: 0.8, duration: 0.45, ease: 'back.out(3)' }, '>-0.1');
+          .from(q(`.${styles.verified}`), { autoAlpha: 0, scale: 0.8, duration: 0.45, ease: 'back.out(3)' }, cert.credentialId ? 2 : 1);
+        if (cert.credentialId) {
+          tl.to(q('[data-id]'), { duration: 1.3, scrambleText: { text: cert.credentialId, chars: HEX, speed: 0.5 } }, 0.8);
+        }
       });
 
       // Pointer tilt + light sweep for the certificate (fine pointers only).
@@ -100,11 +112,16 @@ export function CertificateCard({ cert, index, onOpen }: Props) {
     if (!paper.current) return;
     // Settle the tilt so the morph lands on a flat rectangle.
     pointer.current?.reset();
-    onOpen(cert, paper.current);
+    open(cert, paper.current);
   };
 
   return (
-    <article ref={root} className={`${styles.card} glow-card`} style={{ '--glow': cert.accent } as CSSProperties}>
+    <article
+      ref={root}
+      className={`${styles.card} glow-card`}
+      style={{ '--glow': cert.accent } as CSSProperties}
+      data-wide={wide || undefined}
+    >
       <div className={styles.stage}>
         <button
           type="button"
@@ -125,16 +142,16 @@ export function CertificateCard({ cert, index, onOpen }: Props) {
           </span>
         </button>
 
-        <Seal hours={cert.hours} />
+        <Seal hours={cert.hours} issuer={cert.issuer} />
       </div>
 
       <div className={styles.body}>
         <p className={styles.issuer} data-fade>
-          <SiUdemy aria-hidden /> {cert.issuer} · Certificado de finalización
+          <issuer.icon aria-hidden style={{ color: issuer.color }} /> {cert.issuer} · Certificado de finalización
         </p>
-        <h3 className={styles.title} data-fade>
+        <h4 className={styles.title} data-fade>
           {cert.title}
-        </h3>
+        </h4>
         <p className={styles.instructors} data-fade>
           {cert.instructors}
         </p>
@@ -144,17 +161,28 @@ export function CertificateCard({ cert, index, onOpen }: Props) {
             <dt>Emitido</dt>
             <dd>{cert.issued}</dd>
           </div>
-          <div>
-            <dt>Duración</dt>
-            <dd>{cert.hours} horas</dd>
-          </div>
+          {cert.hours ? (
+            <div>
+              <dt>Duración</dt>
+              <dd>{cert.hours} horas</dd>
+            </div>
+          ) : (
+            <div>
+              <dt>Emisor</dt>
+              <dd>{issuer.seal}</dd>
+            </div>
+          )}
         </dl>
 
         <div className={styles.credential} data-fade>
-          <span className={styles.label}>ID de credencial</span>
-          <code data-id>{cert.credentialId}</code>
+          <span className={styles.label}>{cert.credentialId ? 'ID de credencial' : 'Credencial'}</span>
+          {cert.credentialId ? (
+            <code data-id>{cert.credentialId}</code>
+          ) : (
+            <span className={styles.official}>Emitido directamente por {cert.issuer}</span>
+          )}
           <span className={styles.verified}>
-            <TbRosetteDiscountCheck aria-hidden /> Verificable
+            <TbRosetteDiscountCheck aria-hidden /> {cert.verifyUrl ? 'Verificable' : 'Oficial'}
           </span>
         </div>
 
@@ -165,17 +193,19 @@ export function CertificateCard({ cert, index, onOpen }: Props) {
         </div>
 
         <div className={styles.actions} data-fade>
-          <a href={cert.verifyUrl} target="_blank" rel="noopener noreferrer" className={styles.verify}>
-            Verificar credencial <TbExternalLink aria-hidden />
-          </a>
+          {cert.verifyUrl && (
+            <a href={cert.verifyUrl} target="_blank" rel="noopener noreferrer" className={styles.verify}>
+              Verificar credencial <TbExternalLink aria-hidden />
+            </a>
+          )}
           <a
             href={cert.pdf}
             target="_blank"
             rel="noopener noreferrer"
-            className={styles.pdf}
+            className={cert.verifyUrl ? styles.pdf : styles.verify}
             aria-label={`Abrir PDF del certificado ${cert.title} (pestaña nueva)`}
           >
-            <TbFileTypePdf aria-hidden /> PDF
+            <TbFileTypePdf aria-hidden /> {cert.verifyUrl ? 'PDF' : 'Ver certificado en PDF'}
           </a>
         </div>
       </div>
@@ -183,9 +213,10 @@ export function CertificateCard({ cert, index, onOpen }: Props) {
   );
 }
 
-/** Rotating credential seal: circular text around the course length. */
-function Seal({ hours }: { hours: number }) {
+/** Rotating credential seal: circular text around the course length (or the issuer's logo). */
+function Seal({ hours, issuer }: { hours?: number; issuer: string }) {
   const pathId = useId();
+  const brand = issuerBrand(issuer);
   return (
     <div className={styles.seal} aria-hidden>
       <svg viewBox="0 0 100 100" className={styles.ring}>
@@ -194,13 +225,19 @@ function Seal({ hours }: { hours: number }) {
         </defs>
         <text>
           <textPath href={`#${pathId}`} textLength={236} lengthAdjust="spacing">
-            CERTIFICADO DE FINALIZACIÓN · UDEMY ·
+            {`CERTIFICADO DE FINALIZACIÓN · ${brand.seal} ·`}
           </textPath>
         </text>
       </svg>
       <span className={styles.sealCore}>
-        <strong>{hours}</strong>
-        <small>horas</small>
+        {hours ? (
+          <>
+            <strong>{hours}</strong>
+            <small>horas</small>
+          </>
+        ) : (
+          <brand.icon className={styles.sealLogo} style={{ color: brand.color }} />
+        )}
       </span>
     </div>
   );

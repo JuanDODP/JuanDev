@@ -1,0 +1,89 @@
+.tabs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.25rem;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: calc(var(--radius) + 4px);
+  background: var(--panel);
+}
+
+.tab {
+  position: relative;
+  min-height: 48px;
+  padding-inline: 1.1rem;
+  border-radius: var(--radius);
+  font-size: 0.9375rem;
+  font-weight: 650;
+  font-stretch: var(--semi-wide);
+  color: var(--muted);
+  transition:
+    color var(--dur-fast) ease,
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.tab:active {
+  transform: scale(0.97);
+}
+
+.tab[aria-selected='true'] {
+  color: var(--ink);
+}
+
+.indicator {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--amber);
+  box-shadow: 0 8px 24px -10px color-mix(in srgb, var(--amber) 70%, transparent);
+}
+
+.content {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.icon {
+  width: 19px;
+  height: 19px;
+}
+
+.count {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.5rem;
+  height: 1.5rem;
+  padding-inline: 0.35rem;
+  border-radius: 999px;
+  background: var(--raised);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-stretch: normal;
+  transition:
+    background-color var(--dur-fast) ease,
+    color var(--dur-fast) ease;
+}
+
+.tab[aria-selected='true'] .count {
+  background: rgba(10, 13, 20, 0.16);
+  color: var(--ink);
+}
+
+@media (min-width: 640px) {
+  .tabs {
+    display: inline-grid;
+    grid-template-columns: repeat(2, minmax(9.5rem, auto));
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .tab:not([aria-selected='true']):hover {
+    color: var(--text);
+  }
+}

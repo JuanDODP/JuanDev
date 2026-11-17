@@ -66,16 +66,39 @@ export interface SoftSkill {
   description: string;
 }
 
+/** Top-level grouping shown as tabs in the certifications section. */
+export type CertificationDomain = 'web' | 'cloud';
+
+/** Lane inside a domain (web splits into frontend and backend). */
+export type CertificationTrack = 'frontend' | 'backend' | 'cloud';
+
+export interface CertificationTrackInfo {
+  id: CertificationTrack;
+  label: string;
+  summary: string;
+}
+
+export interface CertificationDomainInfo {
+  id: CertificationDomain;
+  label: string;
+  summary: string;
+  tracks: CertificationTrackInfo[];
+}
+
 export interface CertificationItem {
   id: string;
+  track: CertificationTrack;
   title: string;
   issuer: string;
+  /** Instructors or program that delivered the course. */
   instructors: string;
   /** Human-readable issue date, as printed on the certificate. */
   issued: string;
-  hours: number;
-  credentialId: string;
-  verifyUrl: string;
+  /** Course length, when the certificate states it. */
+  hours?: number;
+  credentialId?: string;
+  /** Public verification page, when the issuer provides one. */
+  verifyUrl?: string;
   /** Rendered first page, used for the card and the lightbox. */
   image: string;
   pdf: string;

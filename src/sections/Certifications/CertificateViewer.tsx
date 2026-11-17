@@ -54,14 +54,21 @@ export function CertificateViewer({ cert, onClose }: Props) {
         />
 
         <footer className={styles.footer}>
-          <code className={styles.id}>{cert.credentialId}</code>
+          <code className={styles.id}>{cert.credentialId ?? cert.instructors}</code>
           <div className={styles.actions}>
-            <a href={cert.pdf} target="_blank" rel="noopener noreferrer" className={styles.ghost}>
+            <a
+              href={cert.pdf}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={cert.verifyUrl ? styles.ghost : styles.primary}
+            >
               <TbFileTypePdf aria-hidden /> PDF
             </a>
-            <a href={cert.verifyUrl} target="_blank" rel="noopener noreferrer" className={styles.primary}>
-              Verificar en {cert.issuer} <TbExternalLink aria-hidden />
-            </a>
+            {cert.verifyUrl && (
+              <a href={cert.verifyUrl} target="_blank" rel="noopener noreferrer" className={styles.primary}>
+                Verificar en {cert.issuer} <TbExternalLink aria-hidden />
+              </a>
+            )}
           </div>
         </footer>
       </div>

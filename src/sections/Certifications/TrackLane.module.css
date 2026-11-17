@@ -1,0 +1,107 @@
+.lane {
+  display: grid;
+  gap: clamp(1.25rem, 3vw, 1.75rem);
+}
+
+.head {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 0.65rem 0.9rem;
+  padding-bottom: 1rem;
+}
+
+.icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius);
+  border: 1px solid color-mix(in srgb, var(--track) 40%, transparent);
+  background: color-mix(in srgb, var(--track) 12%, transparent);
+  color: var(--track);
+}
+
+.icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.titles {
+  min-width: 0;
+}
+
+.kicker {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--faint);
+}
+
+.order {
+  color: var(--track);
+}
+
+.title {
+  font-size: var(--step-2);
+  font-stretch: var(--wide);
+  line-height: 1.1;
+}
+
+.summary {
+  grid-column: 1 / -1;
+  color: var(--muted);
+  font-size: 0.9375rem;
+}
+
+.meta {
+  grid-column: 1 / -1;
+  justify-self: start;
+  padding: 0.25rem 0.65rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+/* Baseline that fades from the track color into the panel line */
+.rule {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(90deg, var(--track), var(--line) 40%);
+  transform-origin: 0 50%;
+}
+
+.grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+@media (min-width: 720px) {
+  .head {
+    grid-template-columns: auto auto 1fr auto;
+    gap: 0.9rem 1.1rem;
+  }
+  .summary {
+    grid-column: auto;
+    padding-left: 1.1rem;
+    border-left: 1px solid var(--line);
+  }
+  .meta {
+    grid-column: auto;
+    justify-self: end;
+  }
+}
+
+@media (min-width: 880px) {
+  .grid[data-count='2'] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.75rem;
+  }
+}
