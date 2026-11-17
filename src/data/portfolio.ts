@@ -7,8 +7,8 @@ import type {
   SoftSkill,
   CertificationItem,
 } from '../types/portfolio.types';
-import nestPdf from '../docs/certificados/Nest.pdf';
-import reactNativePdf from '../docs/certificados/REACT NATIVE.pdf';
+import nestPdf from '../docs/certificados/web/Nest.pdf';
+import reactNativePdf from '../docs/certificados/web/REACT NATIVE.pdf';
 
 export const profile: ProfileData = {
   name: 'Juan Diego Domínguez Castaño',
