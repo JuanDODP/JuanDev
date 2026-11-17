@@ -45,7 +45,7 @@
   --step-1: 1.25rem;
   --step-2: 1.5625rem;
   --step-3: clamp(1.75rem, 1.3rem + 2vw, 2.4rem);
-  --step-4: clamp(2.25rem, 1.4rem + 3.8vw, 3.75rem);
+  --step-4: clamp(2rem, 1.3rem + 3.8vw, 3.75rem);
   --step-5: clamp(2.4rem, 1.2rem + 5vw, 4.75rem);
 
   /* Layout */
@@ -74,6 +74,8 @@
 }
 
 html {
+  /* clip (not hidden) so the viewport can never pan sideways and sticky still works */
+  overflow-x: clip;
   color-scheme: dark;
   -webkit-text-size-adjust: 100%;
   scroll-padding-top: calc(var(--nav-h) + 1rem);
@@ -93,7 +95,7 @@ body {
   color: var(--text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+  overflow-x: clip;
   text-rendering: optimizeLegibility;
 }
 
