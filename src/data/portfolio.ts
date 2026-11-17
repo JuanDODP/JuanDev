@@ -11,6 +11,7 @@ import type {
 import nestPdf from '../docs/certificados/web/Nest.pdf';
 import reactNativePdf from '../docs/certificados/web/REACT NATIVE.pdf';
 import reactProPdf from '../docs/certificados/web/react-pro.pdf';
+import javascriptPdf from '../docs/certificados/web/js.pdf';
 import awsCloudEssentialsPdf from '../docs/certificados/Cloud/ae789251-4e26-4731-9def-49eccba6034d.pdf';
 
 export const profile: ProfileData = {
@@ -301,7 +302,7 @@ export const certificationDomains: CertificationDomainInfo[] = [
     label: 'Web',
     summary: 'Del navegador al servidor: interfaces, apps móviles y APIs construidas con el ecosistema JavaScript y TypeScript.',
     tracks: [
-      { id: 'frontend', label: 'Frontend', summary: 'Interfaces web y móviles con React y React Native.' },
+      { id: 'frontend', label: 'Frontend', summary: 'JavaScript, interfaces web con React y apps móviles con React Native.' },
       { id: 'backend', label: 'Backend', summary: 'APIs y servicios escalables con Node.js y NestJS.' },
     ],
   },
@@ -314,6 +315,21 @@ export const certificationDomains: CertificationDomainInfo[] = [
 ];
 
 export const certifications: CertificationItem[] = [
+  {
+    id: 'javascript',
+    track: 'frontend',
+    title: 'JavaScript Moderno: Guía definitiva, construye +20 proyectos',
+    issuer: 'Udemy',
+    instructors: 'Juan Pablo De la Torre Valdez',
+    issued: '17 de noviembre de 2026',
+    hours: 52.5,
+    credentialId: 'UC-8be5cf03-1996-4b47-a13b-d6696edf753a',
+    verifyUrl: 'https://ude.my/UC-8be5cf03-1996-4b47-a13b-d6696edf753a',
+    image: '/certificates/javascript.jpg',
+    pdf: javascriptPdf,
+    skills: ['JavaScript', 'DOM', 'APIs del navegador'],
+    accent: '#f7df1e',
+  },
   {
     id: 'react-pro',
     track: 'frontend',
