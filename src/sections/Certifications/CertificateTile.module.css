@@ -1,0 +1,121 @@
+.tile {
+  --glow: var(--amber);
+  position: relative;
+  display: grid;
+  grid-template-columns: 112px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.9rem;
+  width: 100%;
+  padding: 0.7rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background:
+    radial-gradient(90% 120% at 0% 50%, color-mix(in srgb, var(--glow) 9%, transparent), transparent 60%),
+    var(--panel);
+  text-align: left;
+  color: var(--text);
+  cursor: pointer;
+  transition:
+    border-color var(--dur) ease,
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.tile:active {
+  transform: scale(0.98);
+}
+
+.tile:focus-visible {
+  outline-offset: 3px;
+}
+
+/* Paper preview, cropped to the certificate's header where the title lives */
+.thumb {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 3;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f7f8fa;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.06),
+    0 10px 22px -14px rgba(0, 0, 0, 0.9),
+    0 0 26px -12px color-mix(in srgb, var(--glow) 60%, transparent);
+}
+
+.thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform-origin: 20% 30%;
+}
+
+.sheen {
+  position: absolute;
+  inset: -20% 0;
+  background: linear-gradient(
+    105deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.6) 46%,
+    color-mix(in srgb, var(--glow) 40%, transparent) 52%,
+    transparent 66%
+  );
+  mix-blend-mode: soft-light;
+  transform: translateX(-130%);
+  pointer-events: none;
+}
+
+.info {
+  display: grid;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.issuer {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--faint);
+}
+
+.issuer svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.title {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: 0.9375rem;
+  font-weight: 650;
+  line-height: 1.25;
+}
+
+.meta {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+.arrow {
+  align-self: start;
+  width: 18px;
+  height: 18px;
+  color: var(--faint);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .tile:hover {
+    border-color: color-mix(in srgb, var(--glow) 45%, var(--line-strong));
+  }
+}
+
+@media (min-width: 1024px) {
+  .tile {
+    grid-template-columns: 124px minmax(0, 1fr) auto;
+  }
+}

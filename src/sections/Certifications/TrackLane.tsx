@@ -2,7 +2,7 @@ import { useRef, type CSSProperties } from 'react';
 import { gsap, useGSAP, EASE_OUT, MOTION_OK } from '../../lib/gsap';
 import type { CertificationItem, CertificationTrackInfo } from '../../types/portfolio.types';
 import { TRACK_BRANDS } from './brand';
-import { CertificateCard } from './CertificateCard';
+import { CertificateTile } from './CertificateTile';
 import { useCertifications } from './context';
 import styles from './TrackLane.module.css';
 
@@ -20,8 +20,9 @@ export function TrackLane({ track, certs, order }: Props) {
   const hours = certs.reduce((sum, c) => sum + (c.hours ?? 0), 0);
   const headingId = `track-${track.id}-title`;
 
-  // The lane header slides in from the side the visitor moved towards, while
-  // its rule draws across like a timeline track being laid down.
+  // The rule draws across like a track being laid down, the header slides in
+  // and the tiles deal out after it. After a tab switch everything comes in
+  // faster, from the side the visitor moved towards.
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
@@ -30,21 +31,41 @@ export function TrackLane({ track, certs, order }: Props) {
         const switching = entrance === 'switch';
         const tl = gsap.timeline(
           switching
-            ? { delay: order * 0.08 }
+            ? { delay: 0.05 + order * 0.08 }
             : { scrollTrigger: { trigger: root.current, start: 'top 85%', once: true } },
         );
-        tl.from(q('[data-head]'), {
-          autoAlpha: 0,
-          x: switching ? direction * 36 : 0,
-          y: switching ? 0 : 18,
-          duration: switching ? 0.45 : 0.7,
-          stagger: 0.06,
-          ease: EASE_OUT,
-        }).from(
-          q(`.${styles.rule}`),
-          { scaleX: 0, duration: switching ? 0.6 : 0.9, ease: 'power3.inOut', clearProps: 'transform' },
-          0.05,
-        );
+        tl.from(q(`.${styles.rule}`), {
+          scaleX: 0,
+          duration: switching ? 0.6 : 0.9,
+          ease: 'power3.inOut',
+          clearProps: 'transform',
+        })
+          .from(
+            q('[data-head]'),
+            {
+              autoAlpha: 0,
+              x: switching ? direction * 32 : 0,
+              y: switching ? 0 : 16,
+              duration: switching ? 0.4 : 0.6,
+              stagger: 0.05,
+              ease: EASE_OUT,
+            },
+            0.05,
+          )
+          .from(
+            q('[data-tile]'),
+            {
+              autoAlpha: 0,
+              x: switching ? direction * 48 : 0,
+              y: switching ? 0 : 28,
+              scale: 0.96,
+              duration: switching ? 0.45 : 0.7,
+              stagger: 0.07,
+              ease: EASE_OUT,
+              clearProps: 'transform',
+            },
+            switching ? 0.08 : 0.15,
+          );
       });
     },
     { scope: root },
@@ -58,6 +79,8 @@ export function TrackLane({ track, certs, order }: Props) {
       style={{ '--track': color } as CSSProperties}
       data-swap
     >
+      <span className={styles.rule} aria-hidden />
+
       <header className={styles.head}>
         <span className={styles.icon} data-head aria-hidden>
           <Icon />
@@ -77,14 +100,15 @@ export function TrackLane({ track, certs, order }: Props) {
           {certs.length} {certs.length === 1 ? 'certificado' : 'certificados'}
           {hours > 0 && <> · {hours} h</>}
         </p>
-        <span className={styles.rule} aria-hidden />
       </header>
 
-      <div className={styles.grid} data-count={Math.min(certs.length, 2)}>
-        {certs.map((c, i) => (
-          <CertificateCard key={c.id} cert={c} index={i} wide={certs.length === 1} />
+      <ul className={styles.tiles}>
+        {certs.map((c) => (
+          <li key={c.id}>
+            <CertificateTile cert={c} />
+          </li>
         ))}
-      </div>
+      </ul>
     </section>
   );
 }

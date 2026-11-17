@@ -5,14 +5,14 @@ import type { CertificationDomain, CertificationTrack } from '../../types/portfo
 
 type Brand = { icon: IconType; color: string };
 
-const ISSUERS: Record<string, Brand & { seal: string }> = {
-  Udemy: { icon: SiUdemy, color: '#a435f0', seal: 'UDEMY' },
-  'AWS Training & Certification': { icon: TbBrandAws, color: '#ff9900', seal: 'AWS' },
+const ISSUERS: Record<string, Brand & { name: string; seal: string }> = {
+  Udemy: { icon: SiUdemy, color: '#a435f0', name: 'Udemy', seal: 'UDEMY' },
+  'AWS Training & Certification': { icon: TbBrandAws, color: '#ff9900', name: 'AWS', seal: 'AWS' },
 };
 
-/** Logo, brand color and short seal label for a certificate issuer. */
+/** Logo, brand color, short name and seal label for a certificate issuer. */
 export const issuerBrand = (issuer: string) =>
-  ISSUERS[issuer] ?? { icon: TbCertificate, color: 'var(--amber)', seal: issuer.toUpperCase() };
+  ISSUERS[issuer] ?? { icon: TbCertificate, color: 'var(--amber)', name: issuer, seal: issuer.toUpperCase() };
 
 export const DOMAIN_ICONS: Record<CertificationDomain, IconType> = {
   web: TbCode,

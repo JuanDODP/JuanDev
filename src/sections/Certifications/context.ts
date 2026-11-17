@@ -26,3 +26,6 @@ export function useCertifications() {
 
 export const PANEL_ID = 'certifications-panel';
 export const tabId = (id: CertificationDomain) => `cert-tab-${id}`;
+
+/** View-transition name shared by a tile's thumbnail and the slider's certificate. */
+export const SHARED_NAME = 'certificate-hero';

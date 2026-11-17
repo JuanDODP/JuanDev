@@ -23,7 +23,8 @@
 }
 
 .stats strong {
-  font-size: var(--step-2);
+  font-size: clamp(1.2rem, 0.6rem + 3vw, var(--step-2));
+  white-space: nowrap;
   font-weight: 750;
   font-stretch: var(--wide);
   line-height: 1.1;
@@ -36,23 +37,69 @@
   line-height: 1.3;
 }
 
+/* ─── Tabs + slider shortcut ─────────────────────────────────── */
+.toolbar {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.explore {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 48px;
+  padding-inline: 1.1rem;
+  border: 1px solid var(--line-strong);
+  border-radius: calc(var(--radius) + 4px);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text);
+  transition:
+    border-color var(--dur-fast) ease,
+    background-color var(--dur-fast) ease,
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.explore svg {
+  width: 19px;
+  height: 19px;
+  color: var(--amber);
+}
+
+.explore:active {
+  transform: scale(0.97);
+}
+
 /* ─── Domain panel ───────────────────────────────────────────── */
 .panel {
   display: grid;
-  gap: clamp(2.75rem, 6vw, 4rem);
+  gap: clamp(1.75rem, 4vw, 2.5rem);
   margin-top: 1.25rem;
 }
 
 .summary {
   max-width: 62ch;
-  margin-bottom: calc(-1 * clamp(1.25rem, 3vw, 2rem));
   color: var(--muted);
   font-size: 0.9375rem;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .explore:hover {
+    border-color: var(--amber-line);
+    background: var(--amber-soft);
+  }
 }
 
 @media (min-width: 640px) {
   .stats li {
     padding: 1rem 1.25rem;
+  }
+  .toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
   }
 }
 

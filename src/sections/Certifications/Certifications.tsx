@@ -1,19 +1,28 @@
 import { useEffect, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
-import { TbCertificate, TbClockHour4, TbSchool } from 'react-icons/tb';
+import { TbCarouselHorizontal, TbCertificate, TbClockHour4, TbSchool } from 'react-icons/tb';
 import { certificationDomains, certifications } from '../../data/portfolio';
 import { useReveal } from '../../hooks';
 import { gsap, ScrollTrigger, useGSAP, MOTION_OK } from '../../lib/gsap';
 import { SectionHeading } from '../../components/ui';
 import type { CertificationDomain, CertificationItem } from '../../types/portfolio.types';
-import { CertificateViewer, SHARED_NAME } from './CertificateViewer';
-import { CertificationsContext, type Entrance } from './context';
+import { CertificateSlider } from './CertificateSlider';
+import { CertificationsContext, SHARED_NAME, type Entrance } from './context';
 import { DomainPanel } from './DomainPanel';
 import { DomainTabs } from './DomainTabs';
 import styles from './Certifications.module.css';
 
 const TOTAL_HOURS = certifications.reduce((sum, c) => sum + (c.hours ?? 0), 0);
 const ISSUER_COUNT = new Set(certifications.map((c) => c.issuer)).size;
+
+/** Every certificate in reading order (domain → track), which is also the slider order. */
+const ordered = certificationDomains.flatMap((d) =>
+  d.tracks.flatMap((t) => certifications.filter((c) => c.track === t.id)),
+);
+
+const trackInfo = Object.fromEntries(
+  certificationDomains.flatMap((d) => d.tracks.map((t) => [t.id, { ...t, domain: d.label }])),
+);
 
 const certsByDomain = Object.fromEntries(
   certificationDomains.map((d) => [d.id, certifications.filter((c) => d.tracks.some((t) => t.id === c.track))]),
@@ -31,7 +40,7 @@ const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: r
 
 /**
  * Runs a DOM update inside a view transition when the browser supports it,
- * so the certificate thumbnail morphs into the lightbox (and back).
+ * so a tile's thumbnail morphs into the slider (and back).
  */
 function morph(update: () => void) {
   if (!document.startViewTransition || prefersReducedMotion()) {
@@ -45,13 +54,12 @@ function morph(update: () => void) {
 
 export function Certifications() {
   const root = useRef<HTMLElement>(null);
-  const thumb = useRef<HTMLElement | null>(null);
   // `selected` drives the tab indicator instantly; `view` swaps the panel
   // once the outgoing content has finished leaving.
   const [selected, setSelected] = useState<CertificationDomain>(certificationDomains[0].id);
   const [view, setView] = useState<View>({ domain: selected, entrance: 'scroll', direction: 1 });
   const shown = useRef(view.domain);
-  const [active, setActive] = useState<CertificationItem | null>(null);
+  const [slide, setSlide] = useState<number | null>(null);
   useReveal(root);
 
   // Total study hours count up once the stats row scrolls in.
@@ -66,7 +74,7 @@ export function Certifications() {
           value: TOTAL_HOURS,
           duration: 1.6,
           ease: 'power3.out',
-          snap: { value: 1 },
+          snap: { value: 0.5 },
           onUpdate: () => {
             el.textContent = String(counter.value);
           },
@@ -119,26 +127,39 @@ export function Certifications() {
     })();
   };
 
-  const open = (cert: CertificationItem, source: HTMLElement) => {
-    thumb.current = source;
-    source.style.viewTransitionName = SHARED_NAME;
+  const thumbFor = (cert: CertificationItem) =>
+    root.current?.querySelector<HTMLElement>(`[data-cert-thumb="${cert.id}"]`) ?? null;
+
+  const openAt = (index: number, source: HTMLElement | null) => {
+    if (source) source.style.viewTransitionName = SHARED_NAME;
     morph(() => {
-      source.style.viewTransitionName = '';
-      setActive(cert);
+      if (source) source.style.viewTransitionName = '';
+      setSlide(index);
     });
   };
 
-  const close = () => {
-    const source = thumb.current;
+  const open = (cert: CertificationItem, source: HTMLElement) =>
+    openAt(
+      ordered.findIndex((c) => c.id === cert.id),
+      source,
+    );
+
+  // Land back on the tile of the certificate being viewed, if it is on screen.
+  const close = (cert: CertificationItem) => {
+    const source = thumbFor(cert);
     morph(() => {
       if (source) source.style.viewTransitionName = SHARED_NAME;
-      setActive(null);
+      setSlide(null);
     }).finally(() => {
-      if (source) {
-        source.style.viewTransitionName = '';
-        source.closest('article')?.querySelector<HTMLElement>('button')?.focus({ preventScroll: true });
-      }
+      if (!source) return;
+      source.style.viewTransitionName = '';
+      source.closest('button')?.focus({ preventScroll: true });
     });
+  };
+
+  const exploreAll = () => {
+    const first = certsByDomain[selected][0];
+    openAt(ordered.indexOf(first), thumbFor(first));
   };
 
   const ctx = { entrance: view.entrance, direction: view.direction, open };
@@ -173,14 +194,21 @@ export function Certifications() {
           </li>
         </ul>
 
-        <DomainTabs domains={certificationDomains} counts={counts} selected={selected} onSelect={selectDomain} />
+        <div className={styles.toolbar}>
+          <DomainTabs domains={certificationDomains} counts={counts} selected={selected} onSelect={selectDomain} />
+          <button type="button" className={styles.explore} onClick={exploreAll} aria-haspopup="dialog" data-reveal>
+            <TbCarouselHorizontal aria-hidden /> Explorar en carrusel
+          </button>
+        </div>
 
         <CertificationsContext value={ctx}>
           <DomainPanel key={domain.id} domain={domain} certs={certsByDomain[domain.id]} />
         </CertificationsContext>
       </div>
 
-      {active && <CertificateViewer cert={active} onClose={close} />}
+      {slide !== null && (
+        <CertificateSlider certs={ordered} tracks={trackInfo} startIndex={slide} onClose={close} />
+      )}
     </section>
   );
 }
