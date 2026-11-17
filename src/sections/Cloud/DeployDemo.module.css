@@ -194,7 +194,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  height: 28px;
+  min-height: 32px;
   padding-inline: 0.6rem;
   border-radius: var(--radius-sm);
   font-size: 0.78rem;
@@ -349,5 +349,27 @@
   .node[data-state='active'] .nodeIcon::after,
   .cursor {
     animation: none;
+  }
+}
+
+/* Phones: the three scenarios share the row instead of scrolling one off-screen */
+@media (max-width: 479px) {
+  .tabs {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 100%;
+  }
+  .tab {
+    height: auto;
+    min-height: 44px;
+    padding: 0.4rem 0.5rem;
+    font-size: 0.8125rem;
+    line-height: 1.2;
+  }
+}
+
+@media (pointer: coarse) {
+  .control {
+    min-height: 40px;
   }
 }

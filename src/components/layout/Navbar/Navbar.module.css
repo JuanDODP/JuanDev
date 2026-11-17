@@ -39,6 +39,9 @@
 }
 
 .logo {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   font-stretch: var(--wide);
   font-weight: 750;
   font-size: 1.05rem;

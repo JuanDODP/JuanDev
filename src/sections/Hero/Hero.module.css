@@ -176,10 +176,31 @@
   border-top: 0;
 }
 
-@media (max-width: 899px) {
+@media (max-width: 599px) {
   .photo {
     width: min(64%, 240px);
     justify-self: start;
+  }
+}
+
+/* Tablets: portrait sits beside the name so the first screen is not half empty */
+@media (min-width: 600px) and (max-width: 899px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr) clamp(170px, 27vw, 230px);
+    gap: 2rem;
+    align-items: start;
+  }
+  .photo {
+    order: 0;
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+}
+
+@media (pointer: coarse) {
+  .socials a {
+    width: 44px;
+    height: 44px;
   }
 }
 

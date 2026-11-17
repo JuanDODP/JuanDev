@@ -114,6 +114,19 @@
   }
 }
 
+/* Narrow phones: give the title the room, not the thumbnail */
+@media (max-width: 399px) {
+  .tile {
+    grid-template-columns: 84px minmax(0, 1fr) auto;
+    gap: 0.75rem;
+    padding: 0.6rem;
+  }
+  .arrow {
+    width: 16px;
+    height: 16px;
+  }
+}
+
 @media (min-width: 1024px) {
   .tile {
     grid-template-columns: 124px minmax(0, 1fr) auto;
